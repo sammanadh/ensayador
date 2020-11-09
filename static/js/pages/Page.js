@@ -2,7 +2,7 @@
 export default class Page{
 
     constructor(){
-
+        
     }
 
     setTitle(title){
@@ -11,6 +11,10 @@ export default class Page{
 
     getHtml(){
         return ``;
+    }
+
+    loadEventListeners(){
+        
     }
 
 }
