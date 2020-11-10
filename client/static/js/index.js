@@ -8,7 +8,7 @@ import Register from "./pages/Register/Register.js";
 *    Availability: https://github.com/dcode-youtube/single-page-app-vanilla-js
 *
 */
-function router(){
+async function router(){
 
     // set all the routes
     const routes = [
@@ -26,7 +26,7 @@ function router(){
     const currentPage = new currentRoute.page();
 
     // Show current page html content
-    document.querySelector("#app").innerHTML = currentPage.getHtml();
+    document.querySelector("#app").innerHTML = await currentPage.getHtml();
 
     // Load all the event listeners for current page
     currentPage.loadEventListeners();
