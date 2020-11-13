@@ -1,4 +1,4 @@
-import Login from "./pages/login/Login.js";
+import Login from "./pages/Login/Login.js";
 import Register from "./pages/Register/Register.js";
 
 /*

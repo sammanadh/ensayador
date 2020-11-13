@@ -1,9 +1,6 @@
-<!--
-    PDO database class
-    Model is going to use this file to interact with the database
- -->
-
 <?php
+// PDO database class
+// Model is going to use this file to interact with the database
 
  class Database{
 

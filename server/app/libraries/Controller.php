@@ -1,23 +1,20 @@
-<!-- 
-    Super class for every other controllers
-    Base controller
-    Loads modals and views
- -->
-
 <?php
+    // Super class for every other controllers
+    // Base controller
+    // Loads modals and views
 
     class Controller {
 
-        // load model
         public function model($model){
-
-            // require modal file
-            require_once '../app/models/' . $model . '.php';
-            
-            // instantiate the modal
-            return new $model();
-        }
-
+            // Require model file
+            if(file_exists('../app/models/' . $model . '.php')){
+                require_once '../app/models/' . $model . '.php';
+                // Instatiate model
+                return new $model();
+            }else{
+                echo $model." doesn't exist";
+            }
+          }
     }
  
  ?>

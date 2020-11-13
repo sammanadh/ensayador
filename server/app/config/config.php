@@ -1,18 +1,21 @@
 <?php
 
     //DB Params
-    define('DB_HOST', "_YOUR_HOST_");
-    define('DB_USER', "_YOUR_USER_");
-    define('DB_PASSWORD', "_YOUR_PASSWORD_");
-    define('DB_NAME', "_YOUR_DB_NAME_");
+    define('DB_HOST', "localhost");
+    define('DB_USER', "root");
+    define('DB_PASSWORD', "");
+    define('DB_NAME', "wine_testers");
 
     // App Root
     define('APPROOT', dirname(dirname(__FILE__)));
 
     // Url Root
-    define('URLROOT', "localhost/wine_testers/server");
+    define('URLROOT', "http://localhost/wine_testers");
 
     // Site name
-    define('SITENAME', 'wine_testers');
+    define('SITENAME', 'SharePosts');
+
+    // App version
+    define('APPVERSION', "1.0.0")
 
 ?> 

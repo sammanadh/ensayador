@@ -1,5 +1,6 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
+import { register } from "../../api/auth.js";
 
 export default class Register extends Page{
 
@@ -20,6 +21,7 @@ export default class Register extends Page{
 
     async getHtml(){
         // eval converts the string into template String so that string interpolation can be used
+        register();
         return eval('`'+await template("/template/Register/Register.html")+'`');
     }
 
