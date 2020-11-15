@@ -22,6 +22,15 @@
             return $this->checkUniqueFields($this->uniqueFields, $body);
         }
 
+        public function register($data){
+            $this->db->query("INSERT INTO $this->table VALUES (:user_id, :first_name, :last_name, :email, :password, :contact_no, :address, :role)");
+            foreach($data as $key=>$value){
+                $this->db->bind($key, $value);
+            };
+            //Execute
+            return $this->db->execute();
+        }
+
     }
 
 ?>

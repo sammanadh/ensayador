@@ -6,7 +6,9 @@
     require_once APPROOT."/libraries/Core.php";
     require_once APPROOT."/libraries/Controller.php";
     require_once APPROOT."/libraries/Database.php";
-    require_once APPROOT."/libraries/ErrorHandler.php";
     require_once APPROOT."/libraries/Model.php";
+
+    // Load the utilities
+    require_once APPROOT."/utils/ResponseHandler.php";
 
 ?>

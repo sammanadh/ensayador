@@ -58,8 +58,8 @@ class Model{
     // Check if all required fields are present
     public function checkRequiredFields($requiredFields, $body){
         foreach($requiredFields as $field){           
-            if(!isset($body->$field)){
-                handleError("$field is required", 400);
+            if(!isset($body[$field])){
+                handleResponse(400, "$field is required");
                 return false;
             }
         }
@@ -69,12 +69,12 @@ class Model{
     // Check if all unique fields are unique
     public function checkUniqueFields($uniqueFields, $body){
         foreach($uniqueFields as $field){
-            if(isset($body->$field)){
+            if(isset($body[$field])){
                 $this->db->query("SELECT * FROM $this->table WHERE $field=:value")
-                    ->bind("value", $body->$field)
+                    ->bind("value", $body[$field])
                     ->single();
                 if($this->db->rowCount()){
-                    handleError("$field already exists", 400);
+                    handleResponse(400, "$field already exists");
                     return false;
                 }
             }
