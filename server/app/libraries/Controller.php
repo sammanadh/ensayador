@@ -1,7 +1,6 @@
 <?php
-    // Super class for every other controllers
-    // Base controller
-    // Loads modals and views
+    // Super class for every controller
+    // Sub class can call model method inside this Controller class to load a modal
 
     class Controller {
 

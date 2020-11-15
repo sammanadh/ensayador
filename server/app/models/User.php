@@ -1,22 +1,25 @@
 <?php
 
-    class User{
+    class User extends Model{
 
-        private $db;
-
+        private $table = "users";
+        private $requiredFields = ["user_id", "first_name", "last_name", "email", "password", "address", "contact_no", "role"];
+        private $uniqueFields = ["user_id", "email", "contact_no"];
+        
         public function __construct(){
-            $this->db = new Database();
+            // Get the database object
+            $this->db = Database::getDatabase();
+            parent::__construct($this->db, $this->table);
         }
 
-        public function findByEmail($email){
-            $this->db->query("SELECT * FROM users WHERE email = :email");
-            $this->db->bind("email", $email);
-            $data = $this->db->single();
-            if(empty($data)){
-                return false;
-            }else{
-                return true;
-            }
+        // Check if all required fields are present
+        public function requiredFieldsExists($body){
+            return $this->checkRequiredFields($this->requiredFields, $body);
+        }
+
+        // Check if all unique fields are unique
+        public function uniqueFieldsAreUnique($body){
+            return $this->checkUniqueFields($this->uniqueFields, $body);
         }
 
     }

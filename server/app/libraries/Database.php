@@ -1,22 +1,24 @@
 <?php
-// PDO database class
-// Model is going to use this file to interact with the database
+// PDO database class to be used by models to interact with database
+// Implemented using Singleton pattern
 
  class Database{
 
-    private $host = DB_HOST;
-    private $user = DB_USER;
-    private $password = DB_PASSWORD;
+    private static $dbObj;
+
+    private $dbhost = DB_HOST;
+    private $dbuser = DB_USER;
+    private $dbpass = DB_PASSWORD;
     private $dbname = DB_NAME;
 
-    private $dbh;       //Database handler
+    private $conn;
     private $stmt;
     private $error;
 
-    public function __construct(){
+    private function __construct(){
 
         // Set Data Source Name
-        $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->dbname;
+        $dsn = "mysql:dbhost=" . $this->dbhost . ";dbname=" . $this->dbname;
         $options = array(
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -24,7 +26,7 @@
 
         //Create a PDO instance
         try{
-            $this->dbh = new PDO($dsn, $this->user, $this->password, $options);
+            $this->conn = new PDO($dsn, $this->dbuser, $this->dbpass, $options);
         }catch(PDOException $e){
             $this->error = $e->getMessage();
             echo($this->error);
@@ -32,9 +34,17 @@
 
     }
 
+    public static function getDatabase(){
+        if(!isset($dbObj)){
+            self::$dbObj = new Database();
+        }
+        return self::$dbObj;
+    }
+
     // Prepare statement with query
     public function query($sql){
-        $this->stmt = $this->dbh->prepare($sql);
+        $this->stmt = $this->conn->prepare($sql);
+        return $this;
     }
 
     // Bind values
@@ -56,11 +66,16 @@
         }
 
         $this->stmt->bindValue($param, $value, $type);
+        return $this;
     }
 
     //execute the prepared statement
     public function execute(){
-        return $this->stmt->execute();
+        try{
+            return $this->stmt->execute();
+        }catch(Exception $e){
+            echo $e;
+        }
     }
 
     // Get resut set as array of objects

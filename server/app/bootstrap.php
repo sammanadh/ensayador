@@ -1,9 +1,12 @@
 <?php
-    //Load config
+    // Load all configurations
     require_once "config/config.php";
 
-    // Autoload core libraries
-    spl_autoload_register(function($className){
-        require_once 'libraries/' . $className . '.php';
-    });
+    // Load all the libraries
+    require_once APPROOT."/libraries/Core.php";
+    require_once APPROOT."/libraries/Controller.php";
+    require_once APPROOT."/libraries/Database.php";
+    require_once APPROOT."/libraries/ErrorHandler.php";
+    require_once APPROOT."/libraries/Model.php";
+
 ?>
