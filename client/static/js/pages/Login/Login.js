@@ -6,14 +6,14 @@ export default class Login extends Page{
     constructor(){
         super();
 
+        this.setTitle(this.title);
+        
         // Initialize the properties
-        this.title = "Login"
         this.data = {
             username : "",
             password : ""
         }
 
-        this.setTitle(this.title);
     }
 
     async getHtml(){

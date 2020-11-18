@@ -6,6 +6,7 @@ export default class Page{
     }
 
     setTitle(title){
+        this.title = title;
         document.title = title;
     }
 

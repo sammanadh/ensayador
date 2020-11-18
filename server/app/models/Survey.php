@@ -1,24 +1,13 @@
 <?php
 
-    class User extends Model{
+    class Survey extends Model{
 
-        private $requiredFields = ["user_id", "first_name", "last_name", "email", "password", "address", "contact_no", "role"];
-        private $uniqueFields = ["user_id", "email", "contact_no"];
+        private $requiredFields = ["survey_for", "survey_title", "starts_at", "ends_at"];
+        private $uniqueFields = ["survey_title"];
         
         public function __construct(){
-            parent::__construct('users');
-        }
-
-        // Check if a user with a particular email exists or 
-        // Return the user if exists
-        private function findByUserId($user_id){
-            $user = $this->db->query("SELECT * FROM users WHERE user_id=:user_id")->bind("user_id", $user_id);
-            $user = $user->single();
-            if($user){
-                return $user;
-            }else{
-                return false;
-            }
+            // Get the database object
+            parent::__construct('surveys');
         }
 
         // Check if all required fields are present
@@ -29,6 +18,11 @@
         // Check if all unique fields are unique
         public function uniqueFieldsAreUnique($body){
             return $this->checkUniqueFields($this->uniqueFields, $body);
+        }
+
+        public function getRemaningLiveSurveys(){
+            $this->db->query("SELECT * FROM surveys WHERE survey_id NOT IN (SELECT survey_id IN participants WHERE user_id = :user_id)");
+            
         }
 
         public function register($data){
@@ -54,7 +48,6 @@
                 }
             }
         }
-
     }
 
 ?>

@@ -8,6 +8,8 @@
 
         public function __construct(){
 
+            // First of all check if the user is authorized
+
             $url = $this->getUrlParams();
             
             // Checking for controller
@@ -15,7 +17,7 @@
                 $this->controller = ucfirst($url[0]);
                 unset($url[0]);
             }else{
-                return handleError("Controller not found. It may occurs if you haven't passed the controller or the controller doesn't exist.", 400);
+                return handleResponse(400,"Controller not found. It may occurs if you haven't passed the controller or the controller doesn't exist.");
             }
 
             // Requring the controller

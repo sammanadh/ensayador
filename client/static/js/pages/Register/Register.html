@@ -1,38 +1,62 @@
-<div class="card" style="background-image: linear-gradient(to bottom, #B8BDD9, #F28B7C); box-shadow: 5px 5px; width: 60%; margin: 5% auto; padding: 5%">
-    <h2 class="card-title mb-4 mx-auto">${this.title}</h2>
-    <form>
-        <div class="form-group">
-            <label for="first-name">First Name</label>
-            <input type="text" class="form-control" id="first-name" placeholder="Enter first name" required>
-        </div>
-        <div class="form-group">
+<div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card card-body bg-light mt-5">
+        <h2>Register</h2>
+        <p>Please fill out all the fields to register a new user.</p>
+        <form action="<?php echo URLROOT; ?>/users/register" method="post">
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" class="form-control" id="first-name" required>
+            </div>
+             <div class="form-group">
             <label for="first-name">Last Name</label>
-            <input type="text" class="form-control" id="last-name" placeholder="Enter last name" required>
+            <input type="text" class="form-control" id="last-name" required>
         </div>
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+            <label for="user-id">User ID</label>
+            <input type="text" class="form-control" id="user-id" required>
         </div>
         <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+            <input type="email" class="form-control" id="email" required>
         </div>
         <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" placeholder="Enter address" required>
+            <input type="text" class="form-control" id="address" required>
         </div>
         <div class="form-group">
             <label for="contact-number">Contact Number</label>
-            <input type="text" class="form-control" id="contact-number" placeholder="Enter contact number" required>
+            <input type="text" class="form-control" id="contact-number" required>
         </div>
         <div class="form-group">
             <label for="dob">Date of Birth</label>
-            <input type="date" class="form-control" id="dob" placeholder="Enter data of birth" required>
+            <input type="date" class="form-control" id="dob" required>
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="tester-role" value="tester" checked>
+                <label class="form-check-label" for="tester-role">
+                  Tester
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="admin-role" value="admin">
+                <label class="form-check-label" for="admin-role">
+                  Admin
+                </label>
+            </div>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" required>
+            <input type="password" class="form-control" id="password" required>
         </div>
-        <button type="submit" class="btn btn-primary w-100 mt-4" click="()=>console.log("done")">Register</button>
-    </form>
-</div>
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" class="form-control" id="confirm-password" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100 mt-4" click="()=>console.log("done")">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>

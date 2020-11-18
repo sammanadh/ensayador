@@ -44,12 +44,11 @@ class Model{
 
     //     return $fields;
     // }
+    protected $db;
+    protected $table;
 
-    private $db;
-    private $table;
-
-    public function __construct($db, $table){
-        $this->db = $db;
+    public function __construct($table){
+        $this->db = Database::getDatabase();
         $this->table = $table;
     }
 

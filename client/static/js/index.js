@@ -1,5 +1,6 @@
 import Login from "./pages/Login/Login.js";
 import Register from "./pages/Register/Register.js";
+import Dashboard from "./pages/dashboard/Dashboard.js";
 
 /*
 *    Title: single-page-app-vanilla-js source code
@@ -12,8 +13,9 @@ async function router(){
 
     // set all the routes
     const routes = [
-        {path: "/register", page: Register, isActive: false},
         {path: "/", page: Login, isActive: false},
+        {path: "/register", page: Register, isActive: false},
+        {path: "/dashboard", page: Dashboard, isActive: false},
     ]
 
     // passing the reference of matching route to curretnRoute

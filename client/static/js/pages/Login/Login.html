@@ -1,14 +1,19 @@
-<div class="card" style="background-image: linear-gradient(to bottom, #B8BDD9, #F28B7C); box-shadow: 5px 5px; width: 60%; margin: 5% auto; padding: 5%">
-    <h2 class="card-title mb-4 mx-auto">${this.title}</h2>
-    <form>
+<div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card card-body bg-light mt-5">
+        <h2>Login</h2>
+        <p>Please fill the form to login.</p>
+        <form action="<?php echo URLROOT; ?>/users/register" method="post">
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
+            <label for="user-id">User ID</label>
+            <input type="text" class="form-control" id="user-id" required>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            <input type="password" class="form-control" id="password" required>
         </div>
-        <button type="submit" class="btn btn-primary w-100 mt-4" click="()=>console.log('done')">Login</button>
-    </form>
-</div>
+        <button type="submit" class="btn btn-success w-100 mt-4" click="()=>console.log("done")">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
