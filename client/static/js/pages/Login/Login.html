@@ -5,14 +5,14 @@
         <p>Please fill the form to login.</p>
         <form action="<?php echo URLROOT; ?>/users/register" method="post">
         <div class="form-group">
-            <label for="user-id">User ID</label>
-            <input type="text" class="form-control" id="user-id" required>
+            <label for="user-id">ID</label>
+            <input type="text" class="form-control" id="user-id" name="user_id" required>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" required>
+            <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <button type="submit" class="btn btn-success w-100 mt-4" click="()=>console.log("done")">Login</button>
+        <button type="submit" class="btn btn-success w-100 mt-4">Login</button>
         </form>
       </div>
     </div>

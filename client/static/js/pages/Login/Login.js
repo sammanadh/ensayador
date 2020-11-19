@@ -1,5 +1,6 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
+import { login } from "../../api/auth.js";
 
 export default class Login extends Page{
 
@@ -10,7 +11,7 @@ export default class Login extends Page{
         
         // Initialize the properties
         this.data = {
-            username : "",
+            user_id : "",
             password : ""
         }
 
@@ -24,7 +25,7 @@ export default class Login extends Page{
     loadEventListeners(){
         document.querySelector("form").addEventListener("submit", (evt)=>{
             evt.preventDefault();
-            console.log(this.data);
+            login(this.data.user_id, this.data.password);
         })
         document.querySelectorAll("input").forEach(e => e.addEventListener("input", (evt)=>{
             if(evt.target.name in this.data){
