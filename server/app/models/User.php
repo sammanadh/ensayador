@@ -44,13 +44,13 @@
         public function login($user_id, $password){
             $row = $this->findByUserId($user_id);
             if(!$row){
-                return handleResponse(404, "Incorrect user_id or password");
+                return false;
             }else{
                 $hashedPassword = $row->password;
                 if(password_verify($password, $hashedPassword)){
                     return $row;
                 }else{
-                    return handleResponse(404, "Incorrect user_id or password");
+                    return false;
                 }
             }
         }

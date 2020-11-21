@@ -31,7 +31,7 @@ async function router(){
     document.querySelector("#app").innerHTML = await currentPage.getHtml();
 
     // Load all the event listeners for current page
-    currentPage.loadEventListeners();
+    currentPage.onload();
 
 }
 

@@ -71,15 +71,11 @@
 
     //execute the prepared statement
     public function execute(){
-        try{
-            return $this->stmt->execute();
-        }catch(Exception $e){
-            echo $e;
-        }
+        return $this->stmt->execute();
     }
 
-    // Get resut set as array of objects
-    public function resultSet(){
+    // Get an array of all the objects from database
+    public function fetchAll(){
         $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_OBJ);
     }

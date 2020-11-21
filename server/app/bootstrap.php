@@ -1,5 +1,6 @@
 <?php
-    // Load all configurations
+
+    // Load all coqnfigurations
     require_once "config/config.php";
     
     // Load all the libraries
@@ -10,6 +11,7 @@
     
     // Load the utilities
     require_once APPROOT."/utils/handleResponse.php";
-    require_once APPROOT."/utils/session.php";
+    require_once APPROOT."/utils/jwt.php";
+    require_once APPROOT."/utils/uuid.php";
 
 ?>

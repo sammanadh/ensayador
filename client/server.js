@@ -5,8 +5,15 @@ const fs = require("fs");
 
 const app = express();
 
-app.use("/static", express.static(path.resolve(__dirname, "static")));
-app.use("/pages", express.static(path.resolve(__dirname, "pages")));
+// For any javascript files
+app.use("/static/js", express.static(path.resolve(__dirname, "static", "js")));
+
+// For css files
+app.use("/static/css", express.static(path.resolve(__dirname, "static", "css")));
+
+// For assets like images
+app.use("/static/assets", express.static(path.resolve(__dirname, "static", "assets")));
+
 
 // Route that returns html template files
 app.use("/template/*", async (req, res, next)=>{
@@ -19,7 +26,7 @@ app.use("/template/*", async (req, res, next)=>{
         res.status(200).json({
             data: data.toString()
         })
-    });
+    }); 
 })
 
 app.use("/*", (req,res,next)=>{

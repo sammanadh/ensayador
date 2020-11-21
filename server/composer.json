@@ -1,0 +1,14 @@
+{
+    "name": "samman/wine_testers",
+    "authors": [
+        {
+            "name": "Samman Adhikari",
+            "email": "sammanadh@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^5.2",
+        "vlucas/phpdotenv": "^5.2",
+        "nesbot/carbon": "^2.41"
+    }
+}

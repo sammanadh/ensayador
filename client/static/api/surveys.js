@@ -11,12 +11,13 @@ async function getSurveys(){
             'token': `Bearer ${token}`
         }
     }).then(res => {
-        if(res.ok){
-            return res.json();
-        }else{
-            throw new Error('Something went very wrong');
-        }
-    }).then(data =>{ console.log(data) }).catch(err => console.log(err));
+        return res.json();
+        // if(res.ok){
+        //     return res.json();
+        // }else{
+        //     throw new Error('Something went very wrong');
+        // }
+    }).then(data => console.log(data)).catch(err => console.log(err));
 }
 
 export {getSurveys}

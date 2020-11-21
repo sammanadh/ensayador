@@ -5,15 +5,9 @@
         public function __construct(){
             // Initialize the model here
             $this->user = $this->model("User");
-            $this->session = $this->model("session");
         }
 
         public function login(){
-
-            if(session_status() == PHP_SESSION_ACTIVE)
-            {
-
-            }
 
             $body = json_decode(file_get_contents('php://input'), true);
 
@@ -23,8 +17,16 @@
 
             $loggedIn = $this->user->login($body["user_id"], $body["password"]);
 
-            // Create a new session
-            $this->session->createSession($loggedIn->user_id);
+            if($loggedIn){
+                // Create a new JWT token
+                $token  = createToken($loggedIn->user_id, $loggedIn->role);
+    
+                // Send response to client with the token
+                handleResponse(200, ["token"=>$token]);
+            }else{
+                handleResponse(404, "Incorrect user_id or password");
+                echo "ok";
+            }
 
         }
         
@@ -42,9 +44,13 @@
 
             // Register the user
             if($this->user->register($body)){
-                return handleResponse(201, "Users successfully registered!");
+                // Create a new jwt token
+                $token  = createToken($body["user_id"], $body["role"]);
+
+                // Send response to client with the token
+                return handleResponse(200, ["token"=>$token]);
             }else{
-                handleResponse(400, "Something went wrong while registering!");
+                return handleResponse(400, "Something went wrong while registering!");
             }
         }
 
