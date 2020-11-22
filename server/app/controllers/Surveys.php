@@ -12,7 +12,7 @@ class Surveys extends Controller{
 
     // Returns only those surveys which are live and haven't been filled    
     public function liveSurveysToBeFilled(){
-        protect();
+        // protect();
         return $this->survey->getRemaningLiveSurveys();
     }   
 
