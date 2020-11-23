@@ -1,6 +1,8 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
 import { getSurveys } from "../../api/surveys.js";
+import { navigateTo } from "../../router.js";
+import { getToken } from "../../helpers.js";
 
 export default class Surveys extends Page{
 
@@ -22,13 +24,9 @@ export default class Surveys extends Page{
     async onload(){
 
         const surveys = document.getElementById('surveys');
-        const token = window.localStorage.getItem("token");
+        const token = getToken();
 
         try{
-            
-            if(!token){
-                throw new Error("You are not authorized");
-            }
 
             let res = await getSurveys(token);
 
@@ -63,7 +61,7 @@ export default class Surveys extends Page{
             }
 
         }catch(err){
-            location.href = "/";
+            navigateTo("/");
         }
     }
 

@@ -2,6 +2,10 @@ import Page from "../Page.js";
 import template from "../../api/template.js";
 import { login } from "../../api/auth.js";
 
+// For navigation
+import { navigateTo } from "../../router.js";
+import { setToken } from "../../helpers.js";
+
 export default class Login extends Page{
 
     constructor(){
@@ -41,10 +45,10 @@ export default class Login extends Page{
                 res = await res.json();
 
                 // Storing the token in local storage
-                localStorage.setItem('token', res.data.token);
+                setToken(res.data.token);
 
                 // Redirecting to surveys
-                location.href = '/surveys';
+                navigateTo('/surveys');
 
             }catch(err){
                 const errorMsg = err.message;
