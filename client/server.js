@@ -5,23 +5,17 @@ const fs = require("fs");
 
 const app = express();
 
-// For any javascript files
-app.use("/static/js", express.static(path.resolve(__dirname, "static", "js")));
-
-// For css files
-app.use("/static/css", express.static(path.resolve(__dirname, "static", "css")));
-
-// For assets like images
-app.use("/static/assets", express.static(path.resolve(__dirname, "static", "assets")));
+// For serving files like css files, images and javascript files inside of static folder
+app.use("/static", express.static(path.resolve(__dirname, "static")));
 
 
 // Route that returns html template files
 app.use("/template/*", async (req, res, next)=>{
-    const page = req.originalUrl.replace("/template", "");
-    fs.readFile(`${__dirname}/static/js/pages/${page}`, 'utf8', function(err, data){ 
-      if(err){
-          res.send(console.log(err));
-      }
+    const comp = req.originalUrl.replace("/template", "");
+    fs.readFile(`${__dirname}/static/js/components/${comp}`, 'utf8', function(err, data){ 
+        if(err){
+            res.send(console.log(err));
+        }
         // Display the file content
         res.status(200).json({
             data: data.toString()

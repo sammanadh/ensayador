@@ -16,6 +16,10 @@ class Surveys extends Controller{
         return $this->survey->getRemaningLiveSurveys();
     }   
 
+    public function surveyQuestions($survey_id){
+        return $this->survey->getQuestions();
+    }
+
 }
 
 ?>

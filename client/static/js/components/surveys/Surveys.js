@@ -2,11 +2,11 @@ import Page from "../Page.js";
 import template from "../../api/template.js";
 import { getSurveys } from "../../api/surveys.js";
 
-export default class Dashboard extends Page{
+export default class Surveys extends Page{
 
     constructor(){
         super();
-        this.setTitle("Dashboard");
+        this.setTitle("Surveys");
 
         // Call the api to retreive surveys
         // this.surveys = 
@@ -14,14 +14,14 @@ export default class Dashboard extends Page{
 
     async getHtml(){
         // eval converts the string into template String so that string interpolation can be used
-        return eval('`'+await template("/template/Dashboard/Dashboard.html")+'`');
+        return eval('`'+await template("/template/surveys/Surveys.html")+'`');
         // const message = "No Surveys";
         // return eval('`'+await template("/template/Shared/NothingHere.html")+'`');
     }
 
     async onload(){
 
-        const dashboard = document.getElementById('dashboard');
+        const surveys = document.getElementById('surveys');
         const token = window.localStorage.getItem("token");
 
         try{
@@ -44,14 +44,14 @@ export default class Dashboard extends Page{
             // If no surveys are left
             if(res.data.length == 0){
                 const message = "No Surveys"
-                const nothingHere = eval('`'+await template("/template/Shared/NothingHere.html")+'`');
-                dashboard.innerHTML = nothingHere;
+                const nothingHere = eval('`'+await template("/template/shared/NothingHere.html")+'`');
+                surveys.innerHTML = nothingHere;
             }
 
             // Get template for displaying surveys
-            const surveyTemplate = await template("/template/Dashboard/Survey.html");
+            const surveyTemplate = await template("/template/surveys/Survey.html");
             
-            // Add surveys to the dashboard
+            // Add surveys from the api request to the surveys list
             for(let survey of res.data){
                 let survey_title = survey.survey_title;
                 let survey_for = survey.survey_for;
@@ -59,7 +59,7 @@ export default class Dashboard extends Page{
                 let surveyTemplateStr = eval('`'+surveyTemplate+'`');
                 let dom = document.createElement('div');
                 dom.innerHTML = surveyTemplateStr;
-                dashboard.append(dom);
+                surveys.append(dom);
             }
 
         }catch(err){

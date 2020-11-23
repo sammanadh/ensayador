@@ -18,7 +18,7 @@ export default class Login extends Page{
 
     async getHtml(){
         // eval converts the string into template String so that string interpolation can be used
-        return eval('`'+await template("/template/Login/Login.html")+'`');
+        return eval('`'+await template("/template/login/Login.html")+'`');
     }
 
     onload(){
@@ -43,8 +43,8 @@ export default class Login extends Page{
                 // Storing the token in local storage
                 localStorage.setItem('token', res.data.token);
 
-                // Redirecting to dashboard
-                location.href = '/dashboard';
+                // Redirecting to surveys
+                location.href = '/surveys';
 
             }catch(err){
                 const errorMsg = err.message;

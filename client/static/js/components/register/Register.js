@@ -28,7 +28,7 @@ export default class Register extends Page{
 
     async getHtml(){
         // eval converts the string into template String so that string interpolation can be used
-        return eval('`'+await template("/template/Register/Register.html")+'`');
+        return eval('`'+await template("/template/register/Register.html")+'`');
     }
 
     onload(){

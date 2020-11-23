@@ -6,16 +6,22 @@
 
     private static $dbObj;
 
-    private $dbhost = DB_HOST;
-    private $dbuser = DB_USER;
-    private $dbpass = DB_PASSWORD;
-    private $dbname = DB_NAME;
+    private $dbhost;
+    private $dbuser;
+    private $dbpass;
+    private $dbname;
 
     private $conn;
     private $stmt;
     private $error;
 
     private function __construct(){
+
+        // Setting all the properties
+        $this->dbhost = $_ENV['DB_HOST'];
+        $this->dbuser = $_ENV['DB_USER'];
+        $this->dbpass = $_ENV['DB_PASSWORD'];
+        $this->dbname = $_ENV['DB_NAME'];
 
         // Set Data Source Name
         $dsn = "mysql:dbhost=" . $this->dbhost . ";dbname=" . $this->dbname;

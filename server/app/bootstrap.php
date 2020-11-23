@@ -1,7 +1,11 @@
 <?php
 
-    // Load all coqnfigurations
-    require_once "config/config.php";
+    /* 
+        I have defined app root here rather than in config file because app root is dynamic 
+        and is going to change based on the location of the project
+    */
+
+    define('APPROOT', __DIR__);
     
     // Load all the libraries
     require_once APPROOT."/libraries/Core.php";
