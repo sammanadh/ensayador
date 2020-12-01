@@ -1,8 +1,7 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
 import { getQuestionsWithOptions, submitQuestionnaire } from "../../api/questionnaire.js";
-import { getToken, setToken } from "../../helpers.js";
-import { navigateTo } from "../../router.js";
+import { getToken, handleError } from "../../helpers.js";
 
 export default class Questionnaire extends Page{
 
@@ -22,39 +21,30 @@ export default class Questionnaire extends Page{
     }
 
     async onload(){
-
         const token = getToken();
-
-        let res = await getQuestionsWithOptions(token, this.id);
-        console.log(await res.json());
         try{
-            // Fetch questions and their options from api
+            let res = await getQuestionsWithOptions(token, this.id);
+            res = await res.json();
 
-            // // Proper error handeling
-            // if(res.status == 401){
-            //     throw new Error("You are not authorized");
-            // }else if( Math.floor(res.status/100) === 4 && res.status.toString().startsWith("4") ){
-            //     throw new Error("Something went wrong")
-            // }else if( Math.floor(res.status/100) === 4 && res.status.toString().startsWith("5") ){
-            //     throw new Error("Internal server error. Server failed to respond")
-            // }
+            // Proper error handeling
+            if( Math.floor(res.status_code/100) === 4 && res.status_code.toString().startsWith("4") ){
+                throw new Error(res.message);
+            }else if( Math.floor(res.status_code/100) === 4 && res.status_code.toString().startsWith("5") ){
+                throw new Error("Internal server error. Server failed to respond")
+            }
 
-            // res = await res.json();
-            // this.questionsWithOptions = res.data;
-            // this.selectedOptions = Object.fromEntries(this.questionsWithOptions.map(q => [q.question_id, null]));
+            this.questionsWithOptions = res.data;
+            this.selectedOptions = Object.fromEntries(this.questionsWithOptions.map(q => [q.question_id, null]));
     
-            // // Load questions onto the page
-            // await this.loadQuestions();
+            // Load questions onto the page
+            await this.loadQuestions();
             
-            // // Add options to the question;
-            // await this.loadOptions();
+            // Add options to the question;
+            await this.loadOptions();
     
-            // this.loadEventHandlers();
+            this.loadEventHandlers();
         }catch(e){
-            // erase the token
-            // setToken("");
-            // navigateTo("/");
-            console.log(e);
+            handleError(err.message);
         }
 
     }

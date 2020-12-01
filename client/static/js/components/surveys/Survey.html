@@ -6,8 +6,8 @@
     </div>
     <h6 class="card-subtitle mb-2 text-muted mb-4">This survey is for ${survey_for}</h6>
     ${role=='tester' ? 
-      '<button class="btn btn-primary w-100 participate-btn" value=${survey_id} >Participate</button>' : 
-      '<button class="btn btn-primary w-100 result-btn" value=${survey_id} >View Result</button>'
+      `<button class="btn btn-primary w-100 participate-btn" value=${survey_id} >Participate</button>` : 
+      `<button class="btn btn-primary w-100 result-btn" value=${survey_id} >View Result</button>`
     }
   </div>
 </div>

@@ -9,16 +9,18 @@ class Surveys extends Controller{
     
     // Returns all the surveys
     public function index(){
-        protect();
-        $surveys = $this->survey->getAllSurveys();
-        handleResponse(200, $surveys);
+        if(protect()){
+            $surveys = $this->survey->getAllSurveys();
+            handleResponse(200, $surveys);
+        }
     }
 
     // Returns only those surveys which are live and haven't been filled    
     public function liveSurveysToBeFilled(){
-        // protect();
-        $surveys = $this->survey->getRemaningLiveSurveys();
-        handleResponse(200, $surveys);
+        if(protect()){
+            $surveys = $this->survey->getRemaningLiveSurveys();
+            handleResponse(200, $surveys);
+        }
     }   
 
     public function participate($survey_id){

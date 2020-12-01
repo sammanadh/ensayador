@@ -8,17 +8,20 @@
 
         if($isException){
             $data = [
+                "status_code"=>$statusCode,
                 "status" => "error",
                 "message" => $payload
             ];
         }else{
             if(isset($payload)){
                 $data = [
+                    "status_code"=>$statusCode,
                     "status"=> "success",
                     "data"=> $payload
                 ];
             }else{
                 $data = [
+                    "status_code"=>$statusCode,
                     "status"=> "success"
                 ];
             }
@@ -30,13 +33,9 @@
         header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: *');
         header('Access-Control-Allow-Credentials', 'true');
-        // ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-        // ->withHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, X-Auth-Token')
-        // ->withHeader('Access-Control-Allow-Credentials', 'true')
-        // ->withHeader('Access-Control-Expose-Headers', 'Content-Length, X-Kuma-Revision')
-        // ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
-        http_response_code($statusCode);
+        http_response_code(200);
         echo(json_encode($data));
+        exit();
     }
 
 ?>

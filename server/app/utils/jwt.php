@@ -19,12 +19,9 @@
         
         // If token isn't send
         if(!isset($token)){
-            Response::handleException(401, 'Authentication failed. Please provide a valid authentication token');
-            // return false;
+                handleResponse(200, 'Authentication failed. Please provide a valid authentication token');
+                return false;
         }
-        return true;
-
-        return Response::handleResponse(200, $token);
 
         $token = $headers['Authorization'];
         $db = Database::getDatabase();

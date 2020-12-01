@@ -1,3 +1,6 @@
+import { navigateTo } from "./router.js";
+import template from "./api/template.js";
+
 function getToken(){
     return localStorage.getItem('token');
 }
@@ -35,4 +38,30 @@ function loadFormValidation(){
     });
 }
 
-export { getToken, setToken, setRole, getRole, loadFormValidation };
+async function handleError(errmsg){
+    const errModalContent = eval('`' + await template("/template/shared/Error.html") + '`');
+
+    // Creating a new model to show error
+    const errModal = document.createElement("div");
+    errModal.className = "modal";
+    errModal.role = "dialog";
+    errModal.tabIndex = "-1";
+    errModal.id = "errModal";
+    errModal.innerHTML = errModalContent;
+
+    // Adding it to the app container
+    document.getElementById("app").append(errModal);
+    
+    // Display the modal
+    $('#errModal').modal('show');
+
+    // Event listener for when the error modal is closed
+    $("#errModal").on("hidden.bs.modal", function () {
+        // Erase the token
+        setToken("");
+        // Navigate to root
+        navigateTo("/");
+    });
+}
+
+export { getToken, setToken, setRole, getRole, loadFormValidation, handleError };

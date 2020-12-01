@@ -13,14 +13,10 @@ class Questionnaire extends Controller{
 
     // Returns only those surveys which are live and haven't been filled    
     public function questionsWithOptions($survey_id){
-        // if(protect()){
-        // }else{
-        //     handleResponse(200);
-        // }
-        protect();
-        // $row = $this->questionnaire->getQuestionsAndOptions($survey_id);
-        // handleResponse(200, $row);
-        
+        if(protect()){
+            $row = $this->questionnaire->getQuestionsAndOptions($survey_id);
+            handleResponse(200, $row);
+        }
     }   
 
     //Save resoponses
