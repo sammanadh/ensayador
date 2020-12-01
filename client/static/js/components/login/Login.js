@@ -35,7 +35,7 @@ export default class Login extends Page{
 
                 // Proper error handeling
                 if(res.status == 404){
-                    throw new Error("Incorrect user id or password");
+                    throw new Error("Incorrect id or password");
                 }else if( Math.floor(res.status/100) === 4 && res.status.toString().startsWith("4") ){
                     throw new Error("Something went wrong")
                 }else if( Math.floor(res.status/100) === 4 && res.status.toString().startsWith("5") ){

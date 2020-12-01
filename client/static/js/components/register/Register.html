@@ -3,7 +3,7 @@
       <div class="card card-body bg-light mt-5">
         <h2>Register</h2>
         <p>Please fill out all the fields to register a new user.</p>
-        <form id="registration_form" novalidate>
+        <form id="registration_form" class="needs-validation" novalidate>
             <div class="form-group">
                 <label for="first-name">First Name</label>
                 <input type="text" class="form-control" id="first-name" name="first_name" required>
@@ -13,7 +13,7 @@
             </div>
             <div class="form-group">
                 <label for="first-name">Last Name</label>
-                <input type="text" class="form-control" id="last-name" name="last_name" required>
+                <input type="text" class="form-control" id="last-name" name="last_name">
                 <div class="invalid-feedback">
                     Last name is required.
                 </div>

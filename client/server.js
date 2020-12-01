@@ -23,7 +23,7 @@ app.use("/template/*", async (req, res, next)=>{
     }); 
 })
 
-app.use("/*", (req,res,next)=>{
+app.use("/*", async(req,res,next)=>{
     res.sendFile(path.resolve(__dirname, "index.html"));
 })
 

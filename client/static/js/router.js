@@ -4,7 +4,7 @@ import Surveys from "./components/surveys/Surveys.js";
 import Questionnaire from "./components/questionnaire/Questionnaire.js";
 
 // helpers
-import { getToken } from "./helpers.js";
+import { getToken, loadFormValidation } from "./helpers.js";
 
 // Generates regular expression for every route path to which the current location is to be compaired
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -12,9 +12,9 @@ const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(
 // Extracts parameters and parameter keys from route and return an object by maping every parameter key to the value 
 const getParams = route => {
     const values = route.result.slice(1);
-    const keys = Array.from(route.path.matchAll(/:(\w+)/g)).map(result => result[1]);
+    const keys = route.path.match(/:(\w+)/g) || [];
     return Object.fromEntries(keys.map((k,i) => {
-        return [k, values[i]]
+        return [k.split(":")[1], values[i]]
     }))
 }
 
@@ -37,18 +37,19 @@ async function router(){
         return route.result != null;
     });
 
-    
     if(!currentRoute && getToken()){
         return navigateTo("/surveys");
     }else if(!currentRoute || !currentRoute.allow){
         return navigateTo("/login");
     }
 
-
     const currentComp = new currentRoute.component(getParams(currentRoute));
 
     // Show current component html content
     document.querySelector("#app").innerHTML = await currentComp.getHtml();
+
+    // If the rendered component contains froms, this function will implement validataion
+    loadFormValidation();
 
     // Load all the event listeners for current component
     currentComp.onload();
@@ -68,5 +69,9 @@ function navigateTo(url){
     history.pushState(null, null, url);
     router();
 }
+
+window.addEventListener("popstate", ()=>{
+    router();
+})
 
 export {router, navigateTo};

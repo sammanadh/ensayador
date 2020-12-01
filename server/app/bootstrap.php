@@ -15,7 +15,7 @@
     
     // Load the utilities
     require_once APPROOT."/utils/handleResponse.php";
-    require_once APPROOT."/utils/jwt.php";
-    require_once APPROOT."/utils/uuid.php";
+    require_once APPROOT."/utils/JWT.php";
+    require_once APPROOT."/utils/UUID.php";
 
 ?>

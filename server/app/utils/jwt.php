@@ -11,11 +11,27 @@
     use \Carbon\Carbon;
 
     function protect(){
-        $token = getallheaders()['Authorization'];
+
+        // Get the request headers
+        $headers = getallheaders();
+        $token = $headers['Authorization'];
+
+        
+        // If token isn't send
+        if(!isset($token)){
+            Response::handleException(401, 'Authentication failed. Please provide a valid authentication token');
+            // return false;
+        }
+        return true;
+
+        return Response::handleResponse(200, $token);
+
+        $token = $headers['Authorization'];
+        $db = Database::getDatabase();
         
         // Check if the token exists and starts with the word Bearer
         if(!isset($token) || strpos($token, 'Bearer') === 1) {
-            handleResponse(400, 'Authentication failed. Please provide a valid authentication key');
+            handleResponse(400, 'Authentication failed. Please provide a valid authentication token');
             return false;
         }
 
@@ -26,15 +42,20 @@
 
         try{
             $decoded = json_decode(JWT::decode($token, $secret, array('HS256')), true);
+
             // Check if the token has expired or not
             if(time() > $decoded['exp']){
                 throw new Exception("Token has expired");
             }
-            return;
+
+            // return user details;
+            return $db->query("SELECT * from users WHERE user_id = :user_id")->bind("user_id", $decoded['user_id'])->single();
         }catch(SignatureInvalidException $e){
             handleResponse(401, "Invalid token");
+            return false;
         }catch(Exception $e){
             handleResponse(401, $e->getMessage());
+            return false;
         }
     }
 

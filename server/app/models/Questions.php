@@ -1,29 +1,46 @@
 <?php
 
-    class Survey extends Model{
-
-        private $requiredFields = ["survey_for", "survey_title", "starts_at", "ends_at"];
-        private $uniqueFields = ["survey_title"];
+    class Questions extends Model{
         
         public function __construct(){
             // Get the database object
-            parent::__construct('surveys');
+            parent::__construct(
+                "questions",   //Table name
+            );
         }
 
-        // Check if all required fields are present
-        public function requiredFieldsExists($body){
-            return $this->checkRequiredFields($this->requiredFields, $body);
+        public function getQuestionsAndOptions($survey_id){
+            //Fetch questions
+            $questions = $this->db
+                ->query("SELECT * FROM $this->table WHERE survey_id=:survey_id")
+                ->bind("survey_id", $survey_id)->fetchAll();
+
+            // Fetch options
+            foreach($questions as $question){
+                $question_id = $question->question_id;
+                $question->options = $this->db
+                    ->query("SELECT * FROM options WHERE question_id=:question_id")
+                    ->bind("question_id", $question_id)
+                    ->fetchAll();
+            }
+
+            return $questions;
         }
 
-        // Check if all unique fields are unique
-        public function uniqueFieldsAreUnique($body){
-            return $this->checkUniqueFields($this->uniqueFields, $body);
-        }
-
-        public function getRemaningLiveSurveys(){
-            $this->db->query('SELECT * FROM surveys WHERE starts_at <= NOW() AND NOW() < ends_at');
-            $rows = $this->db->fetchAll();
-            return handleResponse(200, $rows);
+        public function storeResponses($participant, $responses){
+            try{
+                foreach($responses as $response){
+                    $this->db->query("INSERT INTO responses(response_id, participation_id, option_id) VALUES (:response_id, :participation_id, :option_id)")
+                        ->bind("response_id", generateUUID())
+                        ->bind("participation_id", $participant)
+                        ->bind("option_id", $response);
+                    $this->db->execute();
+                }
+                return true;
+            }catch(Exception $e){
+                handleResponse(400, "Failed to save response");
+                return false;
+            }
         }
     }
 

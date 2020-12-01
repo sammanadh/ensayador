@@ -25,7 +25,6 @@
                 handleResponse(200, ["token"=>$token]);
             }else{
                 handleResponse(404, "Incorrect user_id or password");
-                echo "ok";
             }
 
         }
@@ -35,7 +34,7 @@
             $body = json_decode(file_get_contents('php://input'), true);
 
             // Check if any of the required fields are missing or unique fileds are unique
-            if(!$this->user->requiredFieldsExists($body) || !$this->user->uniqueFieldsAreUnique($body)){
+            if(!$this->user->checkRequiredFields($body) || !$this->user->checkUniqueFields($body)){
                 return; 
             }
 

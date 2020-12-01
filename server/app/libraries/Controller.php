@@ -4,14 +4,14 @@
 
     class Controller {
 
-        public function model($model){
+        protected function model($model){
             // Require model file
             if(file_exists('../app/models/' . $model . '.php')){
                 require_once '../app/models/' . $model . '.php';
                 // Instatiate model
                 return new $model();
             }else{
-                echo $model." doesn't exist";
+                handleResponse(404, "$model model not found");
             }
           }
     }

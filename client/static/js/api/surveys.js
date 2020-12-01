@@ -1,21 +1,38 @@
 import config from "../config.js";
 
-async function getSurveys(token){
+async function getLiveSurveys(token){
 
-    return fetch(`${config.BASEURL}surveys/liveSurveysToBeFilled`, {
+    return fetch(`${config.BASEURL}/surveys/liveSurveysToBeFilled`, {
         method: "GET",
         headers: {
             'Content_Type': 'application/json',
-            'token': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`
         }
     })
-    // .then(res => {
-    //     if(res.ok){
-    //         return res.json();
-    //     }else{
-    //         throw new Error('Something went very wrong');
-    //     }
-    // }).then(data =>{ console.log(data) }).catch(err => console.log(err));
 }
 
-export {getSurveys}
+async function getAllSurveys(token){
+
+    return fetch(`${config.BASEURL}/surveys`, {
+        method: "GET",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+}
+
+async function participate(token, survey_id){
+
+    return fetch(`${config.BASEURL}/surveys/participate/${survey_id}`, {
+        method: "POST",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+}
+
+export { getLiveSurveys, getAllSurveys, participate }

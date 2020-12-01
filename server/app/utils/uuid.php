@@ -1,6 +1,6 @@
 <?php
 
-    function getUUID(): string{
+    function generateUUID(): string{
         return uniqid (rand (),true);
     }
 

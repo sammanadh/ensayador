@@ -46,18 +46,22 @@ class Model{
     // }
     protected $db;
     protected $table;
+    protected $requiredFields;
+    protected $uniqueFields;
 
-    public function __construct($table){
+    public function __construct($table, $requiredFields = [], $uniqueFields = []){
         $this->db = Database::getDatabase();
         $this->table = $table;
+        $this->requiredFields = $requiredFields;
+        $this->uniqueFields = $uniqueFields;
     }
 
 
 
     // Check if all required fields are present
-    public function checkRequiredFields($requiredFields, $body){
-        foreach($requiredFields as $field){           
-            if(!isset($body[$field])){
+    public function checkRequiredFields($body){
+        foreach($this->requiredFields as $field){           
+            if(!isset($body[$field])){ 
                 handleResponse(400, "$field is required");
                 return false;
             }
@@ -67,7 +71,7 @@ class Model{
 
     // Check if all unique fields are unique
     public function checkUniqueFields($uniqueFields, $body){
-        foreach($uniqueFields as $field){
+        foreach($this->uniqueFields as $field){
             if(isset($body[$field])){
                 $this->db->query("SELECT * FROM $this->table WHERE $field=:value")
                     ->bind("value", $body[$field])

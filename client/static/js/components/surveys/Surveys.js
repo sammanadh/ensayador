@@ -1,8 +1,8 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
-import { getSurveys } from "../../api/surveys.js";
+import { getLiveSurveys, getAllSurveys } from "../../api/surveys.js";
 import { navigateTo } from "../../router.js";
-import { getToken } from "../../helpers.js";
+import { getToken, setToken, getRole } from "../../helpers.js";
 
 export default class Surveys extends Page{
 
@@ -25,11 +25,15 @@ export default class Surveys extends Page{
 
         const surveys = document.getElementById('surveys');
         const token = getToken();
+        const role = getRole();
 
         try{
-
-            let res = await getSurveys(token);
-
+            if(role === "admin"){
+                var res = await getAllSurveys(token);
+            }else{
+                var res = await getLiveSurveys(token);
+            }
+            
             // Proper error handeling
             if(res.status == 401){
                 throw new Error("You are not authorized");
@@ -41,7 +45,7 @@ export default class Surveys extends Page{
             res = await res.json();
             // If no surveys are left
             if(res.data.length == 0){
-                const message = "No Surveys"
+                const message = "No New Live    "
                 const nothingHere = eval('`'+await template("/template/shared/NothingHere.html")+'`');
                 surveys.innerHTML = nothingHere;
             }
@@ -51,18 +55,36 @@ export default class Surveys extends Page{
             
             // Add surveys from the api request to the surveys list
             for(let survey of res.data){
+                let survey_id = survey.survey_id;
                 let survey_title = survey.survey_title;
                 let survey_for = survey.survey_for;
                 let ends_at = survey.ends_at;
+                let hasEnded = new Date(ends_at) < Date.now();
+
                 let surveyTemplateStr = eval('`'+surveyTemplate+'`');
                 let dom = document.createElement('div');
                 dom.innerHTML = surveyTemplateStr;
                 surveys.append(dom);
             }
 
+            this.loadEventHandlers();
         }catch(err){
-            navigateTo("/");
+            // erase the token
+            // setToken("");
+            // navigateTo("/");
+            console.log(err);
         }
+    }
+
+    loadEventHandlers(){
+        
+        const btns = document.getElementsByClassName('participate-btn');
+        for(let btn of btns){
+            btn.addEventListener("click", (evt)=>{
+                navigateTo(`/surveys/${evt.target.value}`);
+            })
+        }
+
     }
 
 }

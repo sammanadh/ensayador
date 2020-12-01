@@ -3,7 +3,8 @@
 
     class Core{
         private $controller;
-        private $method;
+        // Default method
+        private $method = "index";
         private $parameters = [];
 
         public function __construct(){
@@ -17,7 +18,7 @@
                 $this->controller = ucfirst($url[0]);
                 unset($url[0]);
             }else{
-                return handleResponse(400,"Controller not found. It may occurs if you haven't passed the controller or the controller doesn't exist.");
+                return handleResponse(404,"Controller not found. It may occurs if you haven't passed the controller or the controller does not exist.");
             }
 
             // Requring the controller
@@ -27,9 +28,13 @@
 
             // Checking for method
             if(isset($url[1]) && method_exists($this->controller, $url[1])){
+                // If method is passed and exists
                 $this->method = $url[1];
                 unset($url[1]);
-            }   
+            } else if(isset($url[1])){
+                // If method is passed but doesn't exist
+                return handleResponse(404, "Method $url[1] does not exist.");
+            }
 
             // Checking for parameters
             $this->parameters = $url ? array_values($url) : [];

@@ -10,12 +10,4 @@ export default class Page{
         document.title = title;
     }
 
-    getHtml(){
-        return ``;
-    }
-
-    loadEventListeners(){
-        
-    }
-
 }
