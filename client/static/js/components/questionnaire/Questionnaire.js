@@ -1,7 +1,7 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
 import { getQuestionsWithOptions, submitQuestionnaire } from "../../api/questionnaire.js";
-import { getToken, handleError } from "../../helpers.js";
+import { getToken, handleError, displayMessage } from "../../helpers.js";
 
 export default class Questionnaire extends Page{
 
@@ -83,8 +83,12 @@ export default class Questionnaire extends Page{
         form.addEventListener("submit", async (evt) => {
             evt.preventDefault();
             var res = await submitQuestionnaire(getToken(),this.id, Object.values(this.selectedOptions).filter(x => x));
-            console.log(res);
-            // console.log(await res.json());
+            res = await res.json();
+            if(Math.floor(res.status_code/100) === 2){
+                return displayMessage("Your survey has been submitted. Thank You!");
+            }else{
+                return handleError(res.message);
+            }
         })
 
         document.querySelectorAll("input").forEach(e => 

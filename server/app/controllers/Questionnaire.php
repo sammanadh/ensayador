@@ -13,7 +13,7 @@ class Questionnaire extends Controller{
 
     // Returns only those surveys which are live and haven't been filled    
     public function questionsWithOptions($survey_id){
-        if(protect()){
+        if(protect(["tester"])){
             $row = $this->questionnaire->getQuestionsAndOptions($survey_id);
             handleResponse(200, $row);
         }
@@ -23,16 +23,23 @@ class Questionnaire extends Controller{
     public function storeResponses($survey_id){
         
         $user = protect();
-        $participant= $this->participants->getParticipant($user->user_id, $survey_id);
-        $body = json_decode(file_get_contents('php://input'), true);
 
-        if(!empty($participant)){
-            // $this->questionnaire->storeResponses($participant->participation_id, $body["responses"]);
+        if(restrictTo($user->role, ["tester"])){
+
+            // Set the user as participant
+            $hasParticipated = $this->participants->participate($user->user_id, $survey_id);
+
+            if(!$hasParticipated){
+                handleResponse(400, "Something went wrong. User could not participate.");
+            }
+
+            // Get the participant details;
+            $participant= $this->participants->getParticipant($user->user_id, $survey_id);
+            $body = json_decode(file_get_contents('php://input'), true);
+    
             if($this->questionnaire->storeResponses($participant->participation_id, $body["responses"])){
                 return handleResponse(200);
             }
-        }else{
-            return handleResponse(404, "User is not a participant in the survey");
         }
     }
 

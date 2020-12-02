@@ -49,7 +49,7 @@ async function handleError(errmsg){
     errModal.id = "errModal";
     errModal.innerHTML = errModalContent;
 
-    // Adding it to the app container
+    // Adding modal to the app container
     document.getElementById("app").append(errModal);
     
     // Display the modal
@@ -64,4 +64,28 @@ async function handleError(errmsg){
     });
 }
 
-export { getToken, setToken, setRole, getRole, loadFormValidation, handleError };
+async function displayMessage(msg){
+    const messageModalContent = eval('`' + await template("/template/shared/Message.html") + '`');
+
+    // Creating a new model to show error
+    const msgModal = document.createElement("div");
+    msgModal.className = "modal";
+    msgModal.role = "dialog";
+    msgModal.tabIndex = "-1";
+    msgModal.id = "errModal";
+    msgModal.innerHTML = messageModalContent;
+
+    // Adding modal to the app container
+    document.getElementById("app").append(msgModal);
+    
+    // Display the modal
+    $('#errModal').modal('show');
+
+    // Event listener for when the modal is closed
+    $("#errModal").on("hidden.bs.modal", function () {
+        // Navigate to root
+        navigateTo("/");
+    });
+}
+
+export { getToken, setToken, setRole, getRole, loadFormValidation, handleError, displayMessage };

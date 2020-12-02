@@ -11,8 +11,12 @@
             );
         }
 
-        public function getRemaningLiveSurveys(){
-            $this->db->query("SELECT * FROM $this->table WHERE starts_at <= NOW() AND NOW() < ends_at");
+        public function getRemaningLiveSurveys($user_id){
+            // Only select unexpired survey in which the user has not already participated 
+            $this->db->query("
+                SELECT * FROM $this->table WHERE starts_at <= NOW() AND NOW() < ends_at AND
+                survey_id NOT IN (SELECT survey_id FROM participants WHERE user_id=:user_id)
+            ")->bind("user_id", $user_id);
             $rows = $this->db->fetchAll();
             return $rows;
         }

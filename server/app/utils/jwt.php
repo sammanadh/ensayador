@@ -10,7 +10,8 @@
     use Firebase\JWT\SignatureInvalidException;
     use \Carbon\Carbon;
 
-    function protect(){
+    // Function authentication and authorization
+    function protect($roles = null){
 
         // Get the request headers
         $headers = getallheaders();
@@ -45,8 +46,23 @@
                 throw new Exception("Token has expired");
             }
 
-            // return user details;
-            return $db->query("SELECT * from users WHERE user_id = :user_id")->bind("user_id", $decoded['user_id'])->single();
+            //
+
+            // Return user details;
+            $user = $db->query("SELECT * from users WHERE user_id = :user_id")->bind("user_id", $decoded['user_id'])->single();
+
+            /*
+                * If roles are passed, this function itself calles restrictTo function.
+                * This makes it simple to implement both authorization and authentication by just calling this function.
+                * In some cases the consumer of this function may need the user details.
+                * In those cases restrictTo function must be called seperately.
+            */
+            if(isset($roles)){
+                return restrictTo($user->role, $roles);
+            }else{
+                return $user;
+            }
+            
         }catch(SignatureInvalidException $e){
             handleResponse(401, "Invalid token");
             return false;
@@ -54,6 +70,17 @@
             handleResponse(401, $e->getMessage());
             return false;
         }
+    }
+
+    // For authorization
+    function restrictTo($userRole, $allowedRoles = null){
+        if($allowedRoles){
+            if(!in_array($userRole, $allowedRoles)){
+                handleResponse(401, "Authorization failed. You do not have proper permissions to perform this action");
+                return false;
+            }
+        }
+        return true;
     }
 
     function createToken($user_id, $role){ 

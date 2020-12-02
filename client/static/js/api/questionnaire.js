@@ -12,16 +12,6 @@ async function getQuestionsWithOptions(token, id){
 }
 
 async function submitQuestionnaire(token, survey_id, responses){
-    // return fetch(`${config.BASEURL}/questionnaire/questionsWitOptions/${survey_id}`, {
-    //     method: "GET",
-    //     headers: {
-    //         'Content_Type': 'application/json',
-    //         'Authorization': `Bearer ${token}`
-    //     },
-    //     // body: JSON.stringify({
-    //     //     responses: [...responses]
-    //     // })
-    // })
     return fetch(`${config.BASEURL}/questionnaire/storeResponses/${survey_id}`, {
         method: "POST",
         headers: {

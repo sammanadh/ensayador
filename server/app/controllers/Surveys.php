@@ -9,7 +9,7 @@ class Surveys extends Controller{
     
     // Returns all the surveys
     public function index(){
-        if(protect()){
+        if(protect("admin")){
             $surveys = $this->survey->getAllSurveys();
             handleResponse(200, $surveys);
         }
@@ -17,17 +17,12 @@ class Surveys extends Controller{
 
     // Returns only those surveys which are live and haven't been filled    
     public function liveSurveysToBeFilled(){
-        if(protect()){
-            $surveys = $this->survey->getRemaningLiveSurveys();
+        $user = protect();
+        if(restrictTo($user->role, ["tester"])){
+            $surveys = $this->survey->getRemaningLiveSurveys($user->user_id);
             handleResponse(200, $surveys);
         }
     }   
-
-    public function participate($survey_id){
-        $user = protect();
-        $this->participants->participate($user->user_id, $survey_id);
-        handleResponse(200);
-    }
 
 }
 
