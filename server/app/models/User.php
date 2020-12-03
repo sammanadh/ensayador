@@ -47,6 +47,13 @@
             }
         }
 
+        public function findByRole($role){
+            $users = $this->db->query("SELECT user_id, first_name, last_name, email, contact_no, `address` FROM users WHERE role=:role")
+                ->bind("role", $role)
+                ->fetchAll();
+            return $users;
+        }
+
     }
 
 ?>

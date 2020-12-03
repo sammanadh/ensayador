@@ -1,7 +1,7 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
 import { getQuestionsWithOptions, submitQuestionnaire } from "../../api/questionnaire.js";
-import { getToken, handleError, displayMessage } from "../../helpers.js";
+import { getToken, handleError, displayMessage, removeToken, removeRole } from "../../helpers.js";
 
 export default class Questionnaire extends Page{
 
@@ -27,9 +27,9 @@ export default class Questionnaire extends Page{
             res = await res.json();
 
             // Proper error handeling
-            if( Math.floor(res.status_code/100) === 4 && res.status_code.toString().startsWith("4") ){
+            if( Math.floor(res.status_code/100) === 4 ){
                 throw new Error(res.message);
-            }else if( Math.floor(res.status_code/100) === 4 && res.status_code.toString().startsWith("5") ){
+            }else if( Math.floor(res.status_code/100) === 4 ){
                 throw new Error("Internal server error. Server failed to respond")
             }
 
@@ -44,7 +44,7 @@ export default class Questionnaire extends Page{
     
             this.loadEventHandlers();
         }catch(e){
-            handleError(err.message);
+            handleError(err.message, "/", ()=>{ removeToken(); removeRole()});
         }
 
     }
@@ -85,7 +85,7 @@ export default class Questionnaire extends Page{
             var res = await submitQuestionnaire(getToken(),this.id, Object.values(this.selectedOptions).filter(x => x));
             res = await res.json();
             if(Math.floor(res.status_code/100) === 2){
-                return displayMessage("Your survey has been submitted. Thank You!");
+                return displayMessage("Your survey has been submitted. Thank You!", "message", "/");
             }else{
                 return handleError(res.message);
             }

@@ -9,7 +9,7 @@ class Surveys extends Controller{
     
     // Returns all the surveys
     public function index(){
-        if(protect("admin")){
+        if(protect(["admin"])){
             $surveys = $this->survey->getAllSurveys();
             handleResponse(200, $surveys);
         }

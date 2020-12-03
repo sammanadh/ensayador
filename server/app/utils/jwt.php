@@ -76,7 +76,7 @@
     function restrictTo($userRole, $allowedRoles = null){
         if($allowedRoles){
             if(!in_array($userRole, $allowedRoles)){
-                handleResponse(401, "Authorization failed. You do not have proper permissions to perform this action");
+                handleResponse(401, "Authorization failed. You do not have proper permission to perform this action.");
                 return false;
             }
         }

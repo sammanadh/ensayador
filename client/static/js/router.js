@@ -2,9 +2,11 @@ import Login from "./components/login/Login.js";
 import Register from "./components/register/Register.js";
 import Surveys from "./components/surveys/Surveys.js";
 import Questionnaire from "./components/questionnaire/Questionnaire.js";
+import Navbar from "./components/navbar/Navbar.js";
+import TestersList from "./components/testers_list/TestersList.js";
 
 // helpers
-import { getToken, loadFormValidation } from "./helpers.js";
+import { getRole, getToken, loadFormValidation, handleError } from "./helpers.js";
 
 // Generates regular expression for every route path to which the current location is to be compaired
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -24,8 +26,9 @@ async function router(){
     const routes = [
         {path: "/login", component: Login, result: null, allow: true},
         {path: "/surveys", component: Surveys, result: null, allow: guardRoute()},
-        {path: "/surveys/:id", component: Questionnaire, result: null, allow: guardRoute()},
+        {path: "/surveys/:id", component: Questionnaire, result: null, allow: guardRoute("tester")},
         {path: "/register", component: Register, result: null, allow: true},
+        {path: "/testers", component: TestersList, result: null, allow: guardRoute("admin")}
     ]
 
     /*
@@ -37,30 +40,44 @@ async function router(){
         return route.result != null;
     });
 
-    if(!currentRoute && getToken()){
-        return navigateTo("/surveys");
-    }else if(!currentRoute || !currentRoute.allow){
-        return navigateTo("/login");
+    if(currentRoute && !currentRoute.allow){
+        return handleError("Sorry! You do not have access to this page.", "/");
     }
 
+    if(!currentRoute && getToken()){
+        return navigateTo("/surveys");
+    }else if(!currentRoute){
+        return navigateTo("/login");
+    }
+    
+    // If the current component is not Login
+    if(currentRoute.component!==Login){
+        // Display the navbar
+        const navbar = await new Navbar();
+        document.querySelector("#navbar").innerHTML =  await navbar.getHtml();   
+        
+        // Run additional setup for navbar
+        navbar.onload();
+    }
+    
     const currentComp = new currentRoute.component(getParams(currentRoute));
-
-    // Show current component html content
+    
+    // Display current component
     document.querySelector("#app").innerHTML = await currentComp.getHtml();
-
+    
     // If the rendered component contains froms, this function will implement validataion
     loadFormValidation();
-
-    // Load all the event listeners for current component
+    
+    // Run additional setup for current component
     currentComp.onload();
-
+    
 }
 
-function guardRoute(role=null){
-    if(!getToken()){
-        return false
+function guardRoute(roles=null){
+    if(getToken() && (!roles || roles.includes(getRole())) ){
+        return true;
     }else{
-        return true
+        return false;
     }
 }
 

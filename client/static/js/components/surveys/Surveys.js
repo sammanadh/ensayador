@@ -2,7 +2,7 @@ import Page from "../Page.js";
 import template from "../../api/template.js";
 import { getLiveSurveys, getAllSurveys } from "../../api/surveys.js";
 import { navigateTo } from "../../router.js";
-import { getToken, getRole, handleError } from "../../helpers.js";
+import { getToken, getRole, handleError, removeRole, removeToken } from "../../helpers.js";
 
 export default class Surveys extends Page{
 
@@ -37,9 +37,9 @@ export default class Surveys extends Page{
             res = await res.json();
 
             // Proper error handeling
-            if( Math.floor(res.status_code/100) === 4 && res.status_code.toString().startsWith("4") ){
+            if( Math.floor(res.status_code/100) === 4 ){
                 throw new Error(res.message);
-            }else if( Math.floor(res.status_code/100) === 4 && res.status_code.toString().startsWith("5") ){
+            }else if( Math.floor(res.status_code/100) === 5 ){
                 throw new Error("Internal server error. Server failed to respond")
             }
 
@@ -69,7 +69,7 @@ export default class Surveys extends Page{
 
             this.loadEventHandlers();
         }catch(err){
-            handleError(err.message);
+            handleError(err.message, "/", ()=>{removeRole();  removeToken()});
         }
     }
 

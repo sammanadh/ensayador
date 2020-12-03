@@ -4,7 +4,7 @@ import { login } from "../../api/auth.js";
 
 // For navigation
 import { navigateTo } from "../../router.js";
-import { setToken } from "../../helpers.js";
+import { setRole, setToken } from "../../helpers.js";
 
 export default class Login extends Page{
 
@@ -44,8 +44,9 @@ export default class Login extends Page{
 
                 res = await res.json();
 
-                // Storing the token in local storage
+                // Storing the token and role in local storage
                 setToken(res.data.token);
+                setRole(res.data.role);
 
                 // Redirecting to surveys
                 navigateTo('/surveys');

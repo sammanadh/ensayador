@@ -22,7 +22,7 @@
                 $token  = createToken($loggedIn->user_id, $loggedIn->role);
     
                 // Send response to client with the token
-                handleResponse(200, ["token"=>$token]);
+                handleResponse(200, ["token"=>$token, "role"=>$loggedIn->role]);
             }else{
                 handleResponse(404, "Incorrect user_id or password");
             }
