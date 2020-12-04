@@ -6,7 +6,7 @@
             // Get the database object
             parent::__construct(
                 "users",   //Table name
-                ["user_id", "first_name", "last_name", "email", "password", "address", "contact_no", "role"], //Required fields
+                ["user_id", "first_name", "last_name", "email", "password", "address", "contact_no"], //Required fields
                 ["user_id", "email", "contact_no"]    //Unique fields
             );
         }
@@ -24,7 +24,28 @@
         }
 
         public function register($data){
-            $this->db->query("INSERT INTO $this->table VALUES (:user_id, :first_name, :last_name, :email, :password, :contact_no, :address, :role)");
+            $this->db->query("INSERT INTO $this->table(
+                user_id,
+                first_name,
+                last_name,
+                email,
+                password,
+                contact_no,
+                dob,
+                address,
+                role
+            ) VALUES (
+                :user_id, 
+                :first_name, 
+                :last_name, 
+                :email, 
+                :password, 
+                :contact_no, 
+                :dob,
+                :address, 
+                :role
+            )");
+
             foreach($data as $key=>$value){
                 $this->db->bind($key, $value);
             };
@@ -48,10 +69,16 @@
         }
 
         public function findByRole($role){
-            $users = $this->db->query("SELECT user_id, first_name, last_name, email, contact_no, `address` FROM users WHERE role=:role")
+            $users = $this->db->query("SELECT user_id, first_name, last_name, email, contact_no, `address` FROM $this->table WHERE role=:role")
                 ->bind("role", $role)
                 ->fetchAll();
             return $users;
+        }
+
+        public function delete($user_id){
+            return $this->db->query("DELETE FROM $this->table WHERE user_id=:user_id")
+                ->bind("user_id", $user_id)
+                ->execute();
         }
 
     }

@@ -29,7 +29,7 @@
 
         }
         
-        public function register(){
+        public function registerTester(){
 
             $body = json_decode(file_get_contents('php://input'), true);
 
@@ -38,6 +38,7 @@
                 return; 
             }
 
+            $body["role"] = "tester";
             // Hash password
             $body["password"] = password_hash($body["password"], PASSWORD_DEFAULT);
 

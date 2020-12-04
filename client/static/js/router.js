@@ -6,7 +6,7 @@ import Navbar from "./components/navbar/Navbar.js";
 import TestersList from "./components/testers_list/TestersList.js";
 
 // helpers
-import { getRole, getToken, loadFormValidation, handleError } from "./helpers.js";
+import { getRole, getToken, handleError } from "./helpers.js";
 
 // Generates regular expression for every route path to which the current location is to be compaired
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -58,15 +58,15 @@ async function router(){
         
         // Run additional setup for navbar
         navbar.onload();
+    }else{
+        // This is neccessary because it will remove the navbar if a user logs out 
+        document.querySelector("#navbar").innerHTML =  null;
     }
     
     const currentComp = new currentRoute.component(getParams(currentRoute));
     
     // Display current component
     document.querySelector("#app").innerHTML = await currentComp.getHtml();
-    
-    // If the rendered component contains froms, this function will implement validataion
-    loadFormValidation();
     
     // Run additional setup for current component
     currentComp.onload();

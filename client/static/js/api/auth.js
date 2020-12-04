@@ -10,12 +10,11 @@ async function login(user_id, password){
     })
 }
 
-function register(){
-
-    fetch(`${config.BASEURL}/auth/register`).then(res=>{
-        return res.json();
-    }).then(data => console.log(data)).catch(err => console.log(err));
-
+async function registerNewTester(userData){
+    return await fetch(`${config.BASEURL}/auth/registerTester`, {
+        method: "POST",
+        body:JSON.stringify(userData)
+    })
 }
 
-export { login, register }
+export { login, registerNewTester }

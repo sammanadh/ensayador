@@ -32,20 +32,6 @@ function removeRole(){
     *    Availability: https://getbootstrap.com/docs/4.0/components/forms/
     *
 */
-function loadFormValidation(){
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll(".needs-validation");
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-        }, false);
-    });
-}
 
 async function handleError(errmsg, redirectTo=null, callback=null){
     const errModalContent = eval('`' + await template("/template/shared/Error.html") + '`');
@@ -81,7 +67,7 @@ async function handleError(errmsg, redirectTo=null, callback=null){
 async function displayMessage(msg, type="message", redirectTo=null, callback=null){
     
     var messageModalContent
-    if(type="confirmation"){
+    if(type==="confirmation"){
         messageModalContent = eval('`' + await template("/template/shared/Confirmation.html") + '`');
     }else{
         messageModalContent = eval('`' + await template("/template/shared/Message.html") + '`');
@@ -110,7 +96,7 @@ async function displayMessage(msg, type="message", redirectTo=null, callback=nul
         }
     }
 
-    if(type="confirmation"){       
+    if(type==="confirmation"){       
          // Event listener for confirmation
         document.querySelector(".confirm-button").addEventListener("click", async ()=>{
             await actions();
@@ -128,8 +114,7 @@ export {
     removeToken,
     setRole, 
     getRole, 
-    removeRole,
-    loadFormValidation, 
+    removeRole, 
     handleError, 
     displayMessage
 };

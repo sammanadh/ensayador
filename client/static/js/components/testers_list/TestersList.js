@@ -1,7 +1,9 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
+import { removeTester } from "../../api/users.js";
 import { getTesters } from "../../api/users.js";
 import { handleError, getToken, displayMessage } from "../../helpers.js";
+import { navigateTo } from "../../router.js";
 
 export default class TestersList extends Page{
 
@@ -26,6 +28,12 @@ export default class TestersList extends Page{
                 throw new Error("Internal server error. Server failed to respond")   
             }
 
+            if(!res.data.length){
+                const message = "No Testers";
+                const emptyTemplate = eval('`'+await template("/template/shared/NothingHere.html")+'`');
+                document.getElementById("testers-table").innerHTML = emptyTemplate;
+            }
+
             await this.loadListItems(res.data);
         }catch(err){
             handleError(err.message);
@@ -48,10 +56,28 @@ export default class TestersList extends Page{
 
     loadEventHandlers(){
 
-        document.getElementById("remove-user").addEventListener("click", (evt)=>{
-            displayMessage("Are you sure you want to remove this user?", "confirmation", null, () => {
-                console.log("confirm");
-            });
+        const removeBtns = document.getElementsByClassName("remove-user");
+
+        for(let removeBtn of removeBtns){
+            removeBtn.addEventListener("click", (evt)=>{
+                displayMessage("Are you sure you want to remove this user?", "confirmation", null, async () => {
+                    const res = await removeTester(evt.target.getAttribute("for"), getToken());
+
+                     // Proper error handeling
+                    if( Math.floor(res.status/100) === 4 ){
+                        throw new Error(res.message)
+                    }else if( Math.floor(res.status/100) === 5 ){
+                        throw new Error("Internal server error. Server failed to respond")
+                    }
+        
+                    // Display success message
+                    return displayMessage("Tester removed successfully.", "message", "/testers");
+                });
+            })
+        }
+
+        document.getElementById("add-tester-button").addEventListener("click", ()=>{
+            navigateTo("/register");
         })
 
     }

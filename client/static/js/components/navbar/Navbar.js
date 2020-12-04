@@ -18,6 +18,7 @@ export default class Questionnaire{
 
         // Return to dashboard
         document.getElementById("dashboard-link").addEventListener("click", ()=>navigateTo("/"))
+        document.getElementById("home-link").addEventListener("click", ()=>navigateTo("/"))
 
         const testersLink = document.getElementById("testers-link")
         

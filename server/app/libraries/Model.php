@@ -70,7 +70,7 @@ class Model{
     }
 
     // Check if all unique fields are unique
-    public function checkUniqueFields($uniqueFields, $body){
+    public function checkUniqueFields($body){
         foreach($this->uniqueFields as $field){
             if(isset($body[$field])){
                 $this->db->query("SELECT * FROM $this->table WHERE $field=:value")

@@ -10,4 +10,14 @@ async function getTesters(token){
     })
 }
 
-export { getTesters }
+async function removeTester(tester_id, token){
+    return fetch(`${config.BASEURL}/users/remove/${tester_id}`, {
+        method: "DELETE",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
+export { getTesters, removeTester }

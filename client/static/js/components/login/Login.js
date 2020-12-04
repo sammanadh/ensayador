@@ -26,31 +26,34 @@ export default class Login extends Page{
     }
 
     onload(){
+        this.loadEventListeners();
+    }
+    
+    async loadEventListeners(){
         document.querySelector("form").addEventListener("submit", async(evt)=>{
             evt.preventDefault();
-
             try{
-
+    
                 let res = await login(this.data.user_id, this.data.password);
-
-                // Proper error handeling
-                if(res.status == 404){
-                    throw new Error("Incorrect id or password");
-                }else if( Math.floor(res.status/100) === 4 && res.status.toString().startsWith("4") ){
-                    throw new Error("Something went wrong")
-                }else if( Math.floor(res.status/100) === 4 && res.status.toString().startsWith("5") ){
-                    throw new Error("Internal server error. Server failed to respond")
-                }
-
+                
                 res = await res.json();
 
+                // Proper error handeling
+                if(res.status_code == 404){
+                    throw new Error("Incorrect id or password");
+                }else if( Math.floor(res.status_code/100) === 4){
+                    throw new Error(res.message);
+                }else if( Math.floor(res.status_code/100) === 5){
+                    throw new Error("Internal server error. Server failed to respond")
+                }
+    
                 // Storing the token and role in local storage
                 setToken(res.data.token);
                 setRole(res.data.role);
-
+    
                 // Redirecting to surveys
                 navigateTo('/surveys');
-
+    
             }catch(err){
                 const errorMsg = err.message;
                 const alert = document.getElementById("error-alert");

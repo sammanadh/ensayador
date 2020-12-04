@@ -17,6 +17,14 @@ class Users extends Controller{
         }
     }
 
+    // Remove a user
+    public function remove($user_id){
+        if(protect["admin"]){
+            $this->users->delete($user_id);
+            handleResponse(200);
+        }
+    }
+
 }
 
 ?>

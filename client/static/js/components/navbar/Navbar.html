@@ -1,7 +1,11 @@
 <nav class="navbar navbar-dark bg-dark text-light">
     <a class="navbar-brand" style="cursor: pointer;" id="dashboard-link">Test Wine</a>
     <div class="d-flex align-items-center">
-        ${role==="admin" ? `<span class="mr-4" id="testers-link" style="cursor: pointer;">Testers</span>` : ``}
+        <span class="mr-4" style="cursor: pointer;" id="home-link">Home</span>
+        ${role==="admin" ? `
+            <span class="mr-4" id="testers-link" style="cursor: pointer;">Testers</span>
+        ` : ``}
         <span class="mr-4" style="cursor: pointer;" id="logout-link">Logout</span>
     </div>
 </nav>
+
