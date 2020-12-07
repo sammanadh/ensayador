@@ -1,6 +1,6 @@
 import config from "../config.js";
 
-async function getLiveSurveys(token){
+function getLiveSurveys(token){
 
     return fetch(`${config.BASEURL}/surveys/liveSurveysToBeFilled`, {
         method: "GET",
@@ -11,7 +11,7 @@ async function getLiveSurveys(token){
     })
 }
 
-async function getAllSurveys(token){
+function getAllSurveys(token){
 
     return fetch(`${config.BASEURL}/surveys`, {
         method: "GET",
@@ -23,7 +23,7 @@ async function getAllSurveys(token){
 
 }
 
-async function participate(token, survey_id){
+function participate(token, survey_id){
 
     return fetch(`${config.BASEURL}/surveys/participate/${survey_id}`, {
         method: "POST",
@@ -35,4 +35,15 @@ async function participate(token, survey_id){
 
 }
 
-export { getLiveSurveys, getAllSurveys, participate }
+function postSurvey(token, data){
+    return fetch(`${config.BASEURL}/surveys/store`, {
+        method: "POST",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+    })
+}
+
+export { getLiveSurveys, getAllSurveys, participate, postSurvey }

@@ -1,0 +1,21 @@
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroup-sizing-default">Question:</span>
+    </div>
+
+    <input type="text" class="form-control qtn-form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+    <div class="input-group-append">
+      <button class="btn btn-danger remove-qtn-btn" type="button" questionNo=${questionNo} width="15px" ${questionNo<=1 ? "hidden":""}>
+        <!-- <img src="/static/assets/images/minus-solid.svg" alt="remove" width="10px"> -->
+        Remove
+      </button>
+    </div>
+
+    <div class="invalid-feedback">
+      Question must not be empty
+    </div>
+</div>
+
+<div class="options">
+  
+</div>

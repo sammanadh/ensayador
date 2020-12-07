@@ -4,6 +4,7 @@ import Surveys from "./components/surveys/Surveys.js";
 import Questionnaire from "./components/questionnaire/Questionnaire.js";
 import Navbar from "./components/navbar/Navbar.js";
 import TestersList from "./components/testers_list/TestersList.js";
+import CreateSurvey from "./components/CreateSurvey/CreateSurvey.js";
 
 // helpers
 import { getRole, getToken, handleError } from "./helpers.js";
@@ -26,9 +27,10 @@ async function router(){
     const routes = [
         {path: "/login", component: Login, result: null, allow: true},
         {path: "/surveys", component: Surveys, result: null, allow: guardRoute()},
-        {path: "/surveys/:id", component: Questionnaire, result: null, allow: guardRoute("tester")},
+        {path: "/surveys/:id", component: Questionnaire, result: null, allow: guardRoute(["tester"])},
+        {path: "/add_survey", component: CreateSurvey, result:null, allow: guardRoute(["admin"])},
         {path: "/register", component: Register, result: null, allow: true},
-        {path: "/testers", component: TestersList, result: null, allow: guardRoute("admin")}
+        {path: "/testers", component: TestersList, result: null, allow: guardRoute(["admin"])},
     ]
 
     /*

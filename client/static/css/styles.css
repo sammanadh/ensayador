@@ -1,1 +1,4 @@
-/* For questionnaire form */
+/* this will prevent any content of a button to register click event */
+button > * {
+    pointer-events: none;
+}

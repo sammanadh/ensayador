@@ -9,16 +9,11 @@ export default class Surveys extends Page{
     constructor(){
         super();
         this.setTitle("Surveys");
-
-        // Call the api to retreive surveys
-        // this.surveys = 
     }
 
     async getHtml(){
         // eval converts the string into template String so that string interpolation can be used
         return eval('`'+await template("/template/surveys/Surveys.html")+'`');
-        // const message = "No Surveys";
-        // return eval('`'+await template("/template/Shared/NothingHere.html")+'`');
     }
 
     async onload(){
@@ -52,6 +47,15 @@ export default class Surveys extends Page{
 
             // Get template for displaying surveys
             const surveyTemplate = await template("/template/surveys/Survey.html");
+
+            // Before adding surveys add a button to create new survey if user is admin
+            if(role == "admin"){
+                const addNew = document.createElement("button");
+                addNew.className = "btn btn-success";
+                addNew.id = "new-survey-btn"
+                addNew.innerHTML = "New Survey";
+                surveys.append(addNew);
+            }
             
             // Add surveys from the api request to the surveys list
             for(let survey of res.data){
@@ -81,6 +85,8 @@ export default class Surveys extends Page{
                 navigateTo(`/surveys/${evt.target.value}`);
             })
         }
+
+        document.getElementById("new-survey-btn").addEventListener("click", ()=>navigateTo("/add_survey"))
 
     }
 

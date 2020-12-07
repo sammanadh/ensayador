@@ -1,0 +1,54 @@
+<div id="new-survey">
+    <form class="needs-validation" id="new-survey-form" novalidate>
+        <h3 class="">About Survey</h3>
+        <hr>
+        <div class="form-group">
+          <label for="survey-title">Survey Title</label>
+          <input type="text" class="form-control" id="survey-title" name="survey_title" required>
+          <div class="invalid-feedback">
+            Survey title is requried
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="survey-for">Survey For</label>
+            <input type="text" class="form-control" id="survey-for" name="survey_for" required>
+            <div class="invalid-feedback">
+                Survey for is requried
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col">
+                <label for="starts-date">Start Date</label>
+                <input type="date" class="form-control" id="starts-time" name="start_date" required>
+                <div class="invalid-feedback">
+                    Start Date is requried
+                </div>
+            </div>
+            <div class="form-group col">
+                <label for="starts-time">Start Time</label>
+                <input type="time" class="form-control" id="starts-time" name="start_time" required>
+                <div class="invalid-feedback">
+                    Start time is requried
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col">
+                <label for="ends-at">End Date</label>
+                <input type="date" class="form-control" id="ends-at" name="end_date" required>
+                <div class="invalid-feedback">
+                    End Date is requried
+                </div>
+            </div>
+            <div class="form-group col">
+                <label for="end-time">End Time</label>
+                <input type="time" class="form-control" id="end-time" name="end_time" required>
+                <div class="invalid-feedback">
+                    End time is requried
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Next</button>
+        <button class="btn btn-danger float-right">Cancel</button>
+      </form>
+</div>

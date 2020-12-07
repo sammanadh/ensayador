@@ -1,6 +1,6 @@
 import config from "../config.js";
 
-async function getTesters(token){
+function getTesters(token){
     return fetch(`${config.BASEURL}/users/byRole/tester`, {
         method: "GET",
         headers: {
@@ -10,7 +10,7 @@ async function getTesters(token){
     })
 }
 
-async function removeTester(tester_id, token){
+function removeTester(tester_id, token){
     return fetch(`${config.BASEURL}/users/remove/${tester_id}`, {
         method: "DELETE",
         headers: {

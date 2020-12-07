@@ -1,0 +1,17 @@
+<div class="input-group input-group-sm mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Option:</span>
+    </div>
+    <input type="text" class="form-control" id="opt-form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+    <div class="invalid-feedback">
+        Option must not be empty.
+    </div>
+    <div class="input-group-append">
+        <button class="btn btn-success add-option mx-1" questionNo=${questionNo} type="button" width="15px">
+          <img src="/static/assets/images/plus-solid.svg" alt="remove" width="10px">
+        </button>
+        <button class="btn btn-danger remove-option" type="button" questionNo=${questionNo} optionNo=${optionNo} width="15px" ${optionNo<=2 ? "hidden":""}>
+          <img src="/static/assets/images/minus-solid.svg" alt="remove" width="10px">
+        </button>
+    </div>
+</div>

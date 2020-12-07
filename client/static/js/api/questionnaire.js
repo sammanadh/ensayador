@@ -1,6 +1,6 @@
 import config from "../config.js";
 
-async function getQuestionsWithOptions(token, id){
+function getQuestionsWithOptions(token, id){
     return fetch(`${config.BASEURL}/questionnaire/questionsWithOptions/${id}`, {
         method: "GET",
         headers: {
@@ -11,7 +11,7 @@ async function getQuestionsWithOptions(token, id){
 
 }
 
-async function submitQuestionnaire(token, survey_id, responses){
+function submitQuestionnaire(token, survey_id, responses){
     return fetch(`${config.BASEURL}/questionnaire/storeResponses/${survey_id}`, {
         method: "POST",
         headers: {
