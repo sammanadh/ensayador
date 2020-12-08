@@ -27,6 +27,22 @@
             $rows = $this->db->fetchAll();
             return $rows;
         }
+
+        public function storeSurvey($data){
+            $id = generateUUID();
+            $this->db->query("INSERT INTO $this->table(survey_id, survey_for, starts_at, ends_at, survey_title) 
+                VALUES (:survey_id, :survey_for, :starts_at, :ends_at, :survey_title)")
+                ->bind("survey_id", $id)
+                ->bind("survey_for", $data["survey_for"])
+                ->bind("starts_at", $data{"starts_at"})
+                ->bind("ends_at", $data["ends_at"])
+                ->bind("survey_title", $data['survey_title']);
+            if($this->db->execute()){
+                return $id;
+            }
+            return null;
+                
+        }
     }
 
 ?>

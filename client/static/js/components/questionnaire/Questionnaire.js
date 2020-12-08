@@ -91,6 +91,10 @@ export default class Questionnaire extends Page{
             }
         })
 
+        document.querySelector(".cancel").addEventListener("click", ()=>{
+            return displayMessage("Are you sure you want to cancel?", "confirmation", "/");
+        })
+
         document.querySelectorAll("input").forEach(e => 
             e.addEventListener("input", (evt)=>{
                 this.selectedOptions[evt.target.getAttribute("for")] = evt.target.value;

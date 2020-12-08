@@ -24,4 +24,14 @@ function submitQuestionnaire(token, survey_id, responses){
     })
 }
 
-export { getQuestionsWithOptions, submitQuestionnaire};
+function getSurveyResponses(token, surveyId){
+    return fetch(`${config.BASEURL}/questionnaire/responses/${surveyId}`, {
+        method: "GET",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
+export { getQuestionsWithOptions, submitQuestionnaire, getSurveyResponses};

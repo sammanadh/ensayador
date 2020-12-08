@@ -1,13 +1,13 @@
 <div class="card mt-2 mb-2">
-  <div class="card-body">
+  <div class="card-body ${hasEnded ? 'font-italic text-muted' : ''}">
     <div class="d-flex w-100 justify-content-between">
-      <h4 class="card-title mb-4" id="survey-title">${survey_title}</h4>
-      <small id="survey-expires-in" class="text-muted">ends at: ${ends_at}</small>
+      <h4 class="card-title mb-4 text-capitalize" id="survey-title">${survey_title}</h4>
+      <small id="survey-expires-in" class="text-muted">${ hasEnded ? 'ended' : 'ends'} at: ${ends_at}</small>
     </div>
     <h6 class="card-subtitle mb-2 text-muted mb-4">This survey is for ${survey_for}</h6>
     ${role=='tester' ? 
-      `<button class="btn btn-primary w-100 participate-btn" value=${survey_id} >Participate</button>` : 
-      `<button class="btn btn-primary w-100 result-btn" value=${survey_id} >View Result</button>`
+      `<button class="btn btn-primary w-100 participate-btn" survey_id=${survey_id} >Participate</button>` : 
+      `<button class="btn w-100 result-btn ${hasEnded ? 'btn-secondary':'btn-primary'}" survey_id=${survey_id} >View Result</button>`
     }
   </div>
 </div>

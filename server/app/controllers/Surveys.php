@@ -4,7 +4,7 @@ class Surveys extends Controller{
 
     public function __construct(){
         $this->survey = $this->model("Survey");
-        $this->participants = $this->model("Participants");
+        $this->questions = $this->model("Questions");
     }
     
     // Returns all the surveys
@@ -24,6 +24,25 @@ class Surveys extends Controller{
         }
     }   
 
+    // Create new survey
+    public function store(){
+
+        $body = json_decode(file_get_contents('php://input'), true);
+
+        // Check if any of the required fields are missing or unique fileds are unique
+        if(!$this->survey->checkRequiredFields($body) || !$this->survey->checkUniqueFields($body)){
+            return; 
+        }
+
+        if(protect(["admin"])){
+            $survey_id = $this->survey->storeSurvey($body);
+            if(isset($survey_id) && $this->questions->storeQuestionsWithOptions($survey_id, $body["questionsWithOptions"])){
+                handleResponse(201);
+            }
+            return handleResponse(400, "Something went wrong. Couldn't store the survey.");
+        }
+
+    }
 }
 
 ?>

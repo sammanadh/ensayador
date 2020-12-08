@@ -63,7 +63,15 @@ export default class Surveys extends Page{
                 let survey_title = survey.survey_title;
                 let survey_for = survey.survey_for;
                 let ends_at = survey.ends_at;
-                let hasEnded = new Date(ends_at) < Date.now();
+
+                // Get the current date and time
+                var present = new Date();
+                var date = present.getFullYear()+'-'+(present.getMonth()+1)+'-'+present.getDate();
+                var time = present.getHours() + ":" + present.getMinutes() + ":" + present.getSeconds();
+                var currentDateTime = date+' '+time;
+
+                // Compair the expiration date with current date
+                let hasEnded = new Date(ends_at) < new Date(currentDateTime);
 
                 let surveyTemplateStr = eval('`'+surveyTemplate+'`');
                 let dom = document.createElement('div');
@@ -73,20 +81,33 @@ export default class Surveys extends Page{
 
             this.loadEventHandlers();
         }catch(err){
+            console.log(err);
             handleError(err.message, "/", ()=>{removeRole();  removeToken()});
         }
     }
 
     loadEventHandlers(){
         
-        const btns = document.getElementsByClassName('participate-btn');
-        for(let btn of btns){
+        // Event handlers for participate buttons
+        const participantBtns = document.getElementsByClassName('participate-btn');
+        for(let btn of participantBtns){
             btn.addEventListener("click", (evt)=>{
-                navigateTo(`/surveys/${evt.target.value}`);
+                navigateTo(`/surveys/${evt.target.getAttribute("survey_id")}`);
             })
         }
 
-        document.getElementById("new-survey-btn").addEventListener("click", ()=>navigateTo("/add_survey"))
+        // Event handlers for view result buttons
+        const resultBtns = document.getElementsByClassName('result-btn');
+        for(let btn of resultBtns){
+            btn.addEventListener("click", (evt)=>{
+                navigateTo(`/responses/${evt.target.getAttribute("survey_id")}`);
+            })
+        }
+
+        const newSurveyBtn = document.getElementById("new-survey-btn");
+        if(newSurveyBtn){
+            newSurveyBtn.addEventListener("click", ()=>navigateTo("/add_survey"))
+        }
 
     }
 

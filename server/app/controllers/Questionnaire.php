@@ -43,6 +43,13 @@ class Questionnaire extends Controller{
         }
     }
 
+    public function responses($survey_id){
+        if(protect(["admin"])){
+            $responses = $this->questionnaire->getResponsesCount($survey_id);
+            return handleResponse(200, $responses);
+        }
+    }
+
 }
 
 ?>
