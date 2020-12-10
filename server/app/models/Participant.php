@@ -1,6 +1,6 @@
 <?php
 
-    class Participants extends Model{
+    class Participant extends Model{
 
         public function __construct(){
             // Get the database object

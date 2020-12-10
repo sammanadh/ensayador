@@ -68,8 +68,14 @@ export default class SurveyResponses extends Page{
                         'width':500,
                         'height':400};
 
+            // Create a new div to place the chart
+            const piechartDiv = document.createElement("div");
+            piechartDiv.className = "piechart mb-4 shadow p-3 mb-5 bg-white rounded";
+            piechartDiv.id = qtn.question_id;
+            document.getElementById('piecharts').appendChild(piechartDiv);
+
             // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            var chart = new google.visualization.PieChart(document.getElementById(qtn.question_id));
             chart.draw(data, options);
         }
     }

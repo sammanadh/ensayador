@@ -3,8 +3,9 @@
 class Questionnaire extends Controller{
 
     public function __construct(){
-        $this->questionnaire = $this->model("Questions");
-        $this->participants = $this->model("Participants");
+        $this->question = $this->model("Question");
+        $this->participant = $this->model("Participant");
+        $this->response = $this->model("Response");
     }
     
     // Returns all the surveys
@@ -14,7 +15,7 @@ class Questionnaire extends Controller{
     // Returns only those surveys which are live and haven't been filled    
     public function questionsWithOptions($survey_id){
         if(protect(["tester"])){
-            $row = $this->questionnaire->getQuestionsAndOptions($survey_id);
+            $row = $this->question->getQuestionsAndOptions($survey_id);
             handleResponse(200, $row);
         }
     }   
@@ -27,17 +28,17 @@ class Questionnaire extends Controller{
         if(restrictTo($user->role, ["tester"])){
 
             // Set the user as participant
-            $hasParticipated = $this->participants->participate($user->user_id, $survey_id);
+            $hasParticipated = $this->participant->participate($user->user_id, $survey_id);
 
             if(!$hasParticipated){
                 handleResponse(400, "Something went wrong. User could not participate.");
             }
 
             // Get the participant details;
-            $participant= $this->participants->getParticipant($user->user_id, $survey_id);
+            $participant= $this->participant->getParticipant($user->user_id, $survey_id);
             $body = json_decode(file_get_contents('php://input'), true);
     
-            if($this->questionnaire->storeResponses($participant->participation_id, $body["responses"])){
+            if($this->response->storeResponses($participant->participation_id, $body["responses"])){
                 return handleResponse(200);
             }
         }
@@ -45,7 +46,7 @@ class Questionnaire extends Controller{
 
     public function responses($survey_id){
         if(protect(["admin"])){
-            $responses = $this->questionnaire->getResponsesCount($survey_id);
+            $responses = $this->response->getResponsesCount($survey_id);
             return handleResponse(200, $responses);
         }
     }

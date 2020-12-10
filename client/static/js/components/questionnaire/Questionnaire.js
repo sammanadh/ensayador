@@ -43,7 +43,7 @@ export default class Questionnaire extends Page{
             await this.loadOptions();
     
             this.loadEventHandlers();
-        }catch(e){
+        }catch(err){
             handleError(err.message, "/", ()=>{ removeToken(); removeRole()});
         }
 

@@ -1,7 +1,6 @@
-<div class="form-check-inline">
-  <input class="form-check-input option" type="radio" name="option" value=${opt.option_id} ${qtn.is_required*1 ? "required":""} for=${qtn.question_id}>
-  <label class="form-check-label option" for="option">
+<div class="form-check">
+  <input class="form-check-input option" type="radio" name='option-for-${opt.question_id}' id={opt.option_id} value=${opt.option_id} for=${qtn.question_id} required>
+  <label class="form-check-label option" for=${opt.option_id}>
     ${opt.option}
   </label>
 </div>
-

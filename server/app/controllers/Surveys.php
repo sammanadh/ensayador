@@ -4,7 +4,7 @@ class Surveys extends Controller{
 
     public function __construct(){
         $this->survey = $this->model("Survey");
-        $this->questions = $this->model("Questions");
+        $this->question = $this->model("Question");
     }
     
     // Returns all the surveys
@@ -36,10 +36,9 @@ class Surveys extends Controller{
 
         if(protect(["admin"])){
             $survey_id = $this->survey->storeSurvey($body);
-            if(isset($survey_id) && $this->questions->storeQuestionsWithOptions($survey_id, $body["questionsWithOptions"])){
+            if(isset($survey_id) && $this->question->storeQuestionsWithOptions($survey_id, $body["questionsWithOptions"])){
                 handleResponse(201);
             }
-            return handleResponse(400, "Something went wrong. Couldn't store the survey.");
         }
 
     }
