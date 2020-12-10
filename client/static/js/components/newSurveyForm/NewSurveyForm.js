@@ -4,7 +4,7 @@ import { postSurvey } from "../../api/surveys.js";
 import { navigateTo } from "../../router.js";
 import { getToken, displayMessage, handleError } from "../../helpers.js";
 
-export default class CreateSurvey extends Page{
+export default class NewSurveyForm extends Page{
 
     constructor(){
         super();
@@ -25,7 +25,7 @@ export default class CreateSurvey extends Page{
 
     async getHtml(){
         // eval converts the string into template String so that string interpolation can be used
-        return eval('`'+await template("/template/createSurvey/SurveysForm.html")+'`');
+        return eval('`'+await template("/template/newSurveyForm/SurveysForm.html")+'`');
 
     }
 
@@ -52,17 +52,22 @@ export default class CreateSurvey extends Page{
                 this.dispalyQuestionnaireForm();
             })
 
-            // Event listeners to bind all the inputs in form to their respective key in survey attribute
+            // Event handler to bind all the inputs in form to their respective key in survey attribute
             document.querySelector("#new-survey-form").addEventListener("input", (evt)=>{
                 if(evt.target.name in this.survey){
                     this.survey[evt.target.name] = evt.target.value
                 }
             })
 
+            // Event handler for cancelling the process
+            document.querySelector(".cancel").addEventListener("click", (evt)=>{
+                navigateTo("/");
+            })
+
     }
     
     async dispalyQuestionnaireForm(){
-        const questionsForm = await eval('`'+await template("/template/createSurvey/QuestionsForm.html")+'`');
+        const questionsForm = await eval('`'+await template("/template/newSurveyForm/QuestionsForm.html")+'`');
         document.getElementById("new-survey").innerHTML = questionsForm;
 
         // load a first question
@@ -144,7 +149,7 @@ export default class CreateSurvey extends Page{
 
         // For fetching the question template for the first time
         if(this.questionTemplate === null){
-            this.questionTemplate = await template("/template/createSurvey/QuestionWithOptions.html");
+            this.questionTemplate = await template("/template/newSurveyForm/QuestionWithOptions.html");
         }
         
         const questionNo = Object.keys(this.questionsAndOptionsRef).length + 1
@@ -178,7 +183,7 @@ export default class CreateSurvey extends Page{
         const optionsContainer = document.getElementById(`questionWithOptions-${questionNo}`).querySelector(".options");
         
         if(this.optionTemplate === null){
-            this.optionTemplate = await template("/template/createSurvey/Option.html");
+            this.optionTemplate = await template("/template/newSurveyForm/Option.html");
         }
         
         const optionNo = Object.keys(this.questionsAndOptionsRef[questionNo].options).length + 1;
