@@ -1,8 +1,8 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
-import { getSurveyResponses } from "../../api/questionnaire.js";
+import { getSurveyResponses } from "../../api/responses.js";
 import { navigateTo } from "../../router.js";
-import { getToken, getRole, handleError, removeRole, removeToken } from "../../helpers.js";
+import { getToken, handleError, removeRole, removeToken } from "../../helpers.js";
 
 export default class SurveyResponses extends Page{
 

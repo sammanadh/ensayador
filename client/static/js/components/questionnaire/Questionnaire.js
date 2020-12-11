@@ -1,6 +1,7 @@
 import Page from "../Page.js";
 import template from "../../api/template.js";
-import { getQuestionsWithOptions, submitQuestionnaire } from "../../api/questionnaire.js";
+import { getQuestionsWithOptions } from "../../api/questionnaire.js";
+import { storeResponses } from "../../api/responses.js";
 import { getToken, handleError, displayMessage, removeToken, removeRole } from "../../helpers.js";
 
 export default class Questionnaire extends Page{
@@ -82,7 +83,7 @@ export default class Questionnaire extends Page{
         var form = document.getElementById('questionnaire-form');
         form.addEventListener("submit", async (evt) => {
             evt.preventDefault();
-            var res = await submitQuestionnaire(getToken(),this.id, Object.values(this.selectedOptions).filter(x => x));
+            var res = await storeResponses(getToken(),this.id, Object.values(this.selectedOptions).filter(x => x));
             res = await res.json();
             if(Math.floor(res.status_code/100) === 2){
                 return displayMessage("Your survey has been submitted. Thank You!", "message", "/");

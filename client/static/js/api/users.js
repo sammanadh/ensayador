@@ -11,7 +11,7 @@ function getTesters(token){
 }
 
 function removeTester(tester_id, token){
-    return fetch(`${config.BASEURL}/users/remove/${tester_id}`, {
+    return fetch(`${config.BASEURL}/users/delete/${tester_id}`, {
         method: "DELETE",
         headers: {
             'Content_Type': 'application/json',

@@ -18,7 +18,7 @@ class Users extends Controller{
     }
 
     // Remove a user
-    public function remove($user_id){
+    public function delete($user_id){
         if(protect["admin"]){
             $this->users->delete($user_id);
             handleResponse(200);
