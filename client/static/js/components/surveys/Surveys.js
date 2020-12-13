@@ -51,7 +51,7 @@ export default class Surveys extends Page{
             // Before adding surveys add a button to create new survey if user is admin
             if(role == "admin"){
                 const addNew = document.createElement("button");
-                addNew.className = "btn btn-success";
+                addNew.className = "btn btn-success rounded shadow";
                 addNew.id = "new-survey-btn"
                 addNew.innerHTML = "New Survey";
                 surveys.append(addNew);
