@@ -1,5 +1,5 @@
 # wine_tester
-*A google forms clone for wine companies to perform survey on their products with their emloyeed testers*
+*A google forms clone for wine companies to perform survey on their products*
 
 
 __Features__
