@@ -63,7 +63,7 @@ export default class SurveyResponses extends Page{
             
             data.addRows(options);
 
-            // Set chart options    
+            // Set chart options   
             var options = {'title': qtn.question,
                         'width':500,
                         'height':400};

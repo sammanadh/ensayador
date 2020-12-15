@@ -24,14 +24,6 @@ app.use("/template/*", async (req, res, next)=>{
     }); 
 })
 
-// const serverUrl = fs.readFileSync(`${__dirname}/static/js/config.js`, "utf-8");
-// console.log(serverUrl);
-
-// httpProxy.createProxyServer({
-//     // target: "/server",
-//     target: "http://localhost/wine_testers/vhjg"
-// });
-
 app.use("/*", async(req,res,next)=>{
     res.sendFile(path.resolve(__dirname, "index.html"));
 })

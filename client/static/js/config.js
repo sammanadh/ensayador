@@ -1,6 +1,6 @@
 export default {
 
-    APPNAME: "WINE TESTERS",
-    BASEURL: "http://localhost/wine_testers/server"
+    APPNAME: "ENSAYADOR",
+    BASEURL: "http://localhost/ensayador/server"
 
 }
