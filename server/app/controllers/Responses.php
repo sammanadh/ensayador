@@ -31,6 +31,7 @@ class Responses extends Controller{
         }
     }
 
+    // Get survey responses by survey id
     public function bySurveyId($survey_id){
         if(protect(["admin"])){
             $responses = $this->response->getResponsesCount($survey_id);

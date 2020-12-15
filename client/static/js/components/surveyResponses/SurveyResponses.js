@@ -27,10 +27,6 @@ export default class SurveyResponses extends Page{
                 throw new Error(res.message);
             }else if( Math.floor(res.status_code/100) === 5 ){
                 throw new Error("Internal server error. Server failed to respond")
-            }else if(!res.data.length){
-                const message = "No Response"
-                const nothingHere = eval('`'+await template("/template/shared/NothingHere.html")+'`');
-                return document.getElementById("survey-responses").innerHTML = nothingHere;
             }
 
             // Load the Visualization API and the corechart package.
@@ -49,8 +45,8 @@ export default class SurveyResponses extends Page{
     // Callback that creates and populates a data table,
     // instantiates the pie chart, passes in the data and
     // draws it.
-    async drawChart(data) {
-        for(let qtn of data){
+    async drawChart(qtnData) {
+        for(let qtn of qtnData){
             // Create the data table.
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Options');
@@ -74,10 +70,21 @@ export default class SurveyResponses extends Page{
             piechartDiv.id = qtn.question_id;
             document.getElementById('piecharts').appendChild(piechartDiv);
 
+            // Handles if there is no response for a question
+            if(qtn.options.every(o => o.count*1===0)){
+                let message = "No Response"
+                let nothingHere = eval('`'+await template("/template/shared/NothingHere.html")+'`');
+                document.getElementById(qtn.question_id).innerHTML = `
+                <h5>${qtn.question}</h5>
+                ${nothingHere}
+                `;
+                continue;
+            }
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.PieChart(document.getElementById(qtn.question_id));
             chart.draw(data, options);
         }
+        
     }
 
     loadEventHandlers(){
