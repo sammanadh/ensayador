@@ -16,7 +16,7 @@ class Users extends Controller{
      * Sends users by role
      */
     public function byRole($role){
-        if(protect(["admin"])){
+        if(protect(["company"])){
             $rows = $this->users->findByRole($role);
             handleResponse(200, $rows);
         }
@@ -26,7 +26,7 @@ class Users extends Controller{
      * Removes a user
      */
     public function delete($user_id){
-        if(protect["admin"]){
+        if(protect["company"]){
             $this->users->delete($user_id);
             handleResponse(200);
         }

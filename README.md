@@ -1,4 +1,4 @@
-# wine_tester
+# Ensayador
 *A google forms clone for wine companies to perform survey on their products*
 
 

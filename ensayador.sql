@@ -106,7 +106,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, `contact_no`, `address`, `role`, `dob`) VALUES
-('00000', 'admin', 'admin', 'admin@admin.com', '$2y$10$vfT06.7AO/C2WKakngi3ieREYkKpCLL7Trq3ncoA.ir.WDKDFFs8G', '9999999', 'address', 'admin', '1999-01-01');
+('00000', 'food company', 'food company', 'food@company.com', '$2y$10$vfT06.7AO/C2WKakngi3ieREYkKpCLL7Trq3ncoA.ir.WDKDFFs8G', '9999999', 'address', 'company', '1999-01-01');
 
 --
 -- Indexes for dumped tables

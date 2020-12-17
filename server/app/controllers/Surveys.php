@@ -14,7 +14,7 @@ class Surveys extends Controller{
      * Sends all the surveys
      */
     public function index(){
-        if(protect(["admin"])){
+        if(protect(["company"])){
             $surveys = $this->survey->getAllSurveys();
             handleResponse(200, $surveys);
         }
@@ -43,7 +43,7 @@ class Surveys extends Controller{
             return; 
         }
 
-        if(protect(["admin"])){
+        if(protect(["company"])){
             $survey_id = $this->survey->storeSurvey($body);
             if(isset($survey_id) && $this->question->storeQuestionsWithOptions($survey_id, $body["questionsWithOptions"])){
                 handleResponse(201);

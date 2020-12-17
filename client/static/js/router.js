@@ -40,10 +40,10 @@ async function router(){
         {path: "/login", component: Login, result: null, allow: true},
         {path: "/surveys", component: Surveys, result: null, allow: guardRoute()},
         {path: "/surveys/:id", component: Questionnaire, result: null, allow: guardRoute(["tester"])},
-        {path: "/add_survey", component: NewSurveyForm, result:null, allow: guardRoute(["admin"])},
+        {path: "/add_survey", component: NewSurveyForm, result:null, allow: guardRoute(["company"])},
         {path: "/register", component: Register, result: null, allow: true},
-        {path: "/testers", component: TestersList, result: null, allow: guardRoute(["admin"])},
-        {path: "/responses/:id", component: SurveyResponses, result: null, allow: guardRoute(["admin"])},
+        {path: "/testers", component: TestersList, result: null, allow: guardRoute(["company"])},
+        {path: "/responses/:id", component: SurveyResponses, result: null, allow: guardRoute(["company"])},
     ]
 
     /*

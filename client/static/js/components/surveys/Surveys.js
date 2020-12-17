@@ -36,7 +36,7 @@ export default class Surveys extends Page{
         const role = getRole();
 
         try{
-            if(role === "admin"){
+            if(role === "company"){
                 var res = await getAllSurveys(token);
             }else{
                 var res = await getLiveSurveys(token);
@@ -51,8 +51,8 @@ export default class Surveys extends Page{
                 throw new Error("Internal server error. Server failed to respond")
             }
 
-            // Before adding surveys add a button to create new survey if user is admin
-            if(role == "admin"){
+            // Before adding surveys add a button to create new survey if user is company
+            if(role == "company"){
                 const addNew = document.createElement("button");
                 addNew.className = "btn btn-success rounded shadow";
                 addNew.id = "new-survey-btn"

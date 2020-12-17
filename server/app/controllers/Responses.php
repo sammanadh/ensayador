@@ -42,7 +42,7 @@ class Responses extends Controller{
      * Sends survey responses by survey id
      */
     public function bySurveyId($survey_id){
-        if(protect(["admin"])){
+        if(protect(["company"])){
             $responses = $this->response->getResponsesCount($survey_id);
             return handleResponse(200, $responses);
         }
