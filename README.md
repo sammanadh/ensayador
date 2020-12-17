@@ -3,10 +3,10 @@
 
 
 __Features__
-1. Authtication and authorization for system admins and testers in both front and back end
-1. Admins can create new surveys
+1. Authtication and authorization for food company and testers in both front and back end
+1. Company can create new surveys
 1. Testers can fill surveys
-1. Admins can manage testers (register and remove)
+1. Company can manage testers (register and remove)
 1. Charts that illustrates responses using google charts API
 
 __Steps for running in your local machine__
