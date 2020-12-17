@@ -1,10 +1,24 @@
  <?php
-    // This library look into the url and breaks it down into an array and decides with method of which controller to run
+    /** 
+     * This library look into the url and breaks it down into an array and decides with method of which controller to run
+     * 
+     */
 
     class Core{
         private $controller;
-        // Default method
+        
+        /**
+         * Current method passed in the url
+         *
+         * @var string
+         */
         private $method = "index";
+
+        /**
+         * Parameters passed in the url
+         * 
+         * @var string[]
+         */
         private $parameters = [];
 
         public function __construct(){
@@ -44,6 +58,11 @@
 
         }
 
+        /**
+         * If url exsits, extracts parameters from the url
+         * 
+         * @return string[]
+         */
         public function getUrlParams(){
             // Check if the url exists
             if(isset($_GET['url'])){

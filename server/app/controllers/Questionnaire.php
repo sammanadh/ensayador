@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Controller class for Questionnaire
+ */
 class Questionnaire extends Controller{
 
     public function __construct(){
@@ -7,12 +10,12 @@ class Questionnaire extends Controller{
         $this->participant = $this->model("Participant");
         $this->response = $this->model("Response");
     }
-    
-    // Returns all the surveys
-    public function index(){
-    }
 
-    // Returns only those surveys which are live and haven't been filled    
+    public function index(){}
+
+    /**
+     * Sends only those surveys which are live and haven't been filled  
+     */  
     public function questionsWithOptions($survey_id){
         if(protect(["tester"])){
             $row = $this->question->getQuestionsAndOptions($survey_id);

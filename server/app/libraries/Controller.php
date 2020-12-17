@@ -1,9 +1,16 @@
 <?php
-    // Super class for every controller
-    // Sub class can call model method inside this Controller class to load a modal
 
+    /**
+     * Super class for every controller
+     */
     class Controller {
 
+        /**
+         * Loads model
+         * 
+         * @param strign $model Name of the model
+         * @return object
+         */
         protected function model($model){
             // Require model file
             if(file_exists('../app/models/' . $model . '.php')){

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2020 at 07:40 AM
+-- Generation Time: Dec 15, 2020 at 01:36 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `wine_testers`
+-- Database: `ensayador`
 --
 
 -- --------------------------------------------------------
@@ -32,6 +32,7 @@ CREATE TABLE `options` (
   `option` varchar(128) NOT NULL,
   `question_id` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
@@ -55,10 +56,6 @@ CREATE TABLE `questions` (
   `question` varchar(512) NOT NULL,
   `survey_id` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `questions`
---
 
 -- --------------------------------------------------------
 
@@ -85,6 +82,7 @@ CREATE TABLE `surveys` (
   `ends_at` datetime NOT NULL,
   `survey_title` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
@@ -102,6 +100,13 @@ CREATE TABLE `users` (
   `role` varchar(256) NOT NULL DEFAULT 'tester',
   `dob` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email`, `password`, `contact_no`, `address`, `role`, `dob`) VALUES
+('00000', 'admin', 'admin', 'admin@admin.com', '$2y$10$vfT06.7AO/C2WKakngi3ieREYkKpCLL7Trq3ncoA.ir.WDKDFFs8G', '9999999', 'address', 'admin', '1999-01-01');
 
 --
 -- Indexes for dumped tables

@@ -1,38 +1,60 @@
 import { navigateTo } from "./router.js";
 import template from "./api/template.js";
 
+/**
+ * This function returns token stored in local storage
+ * @returns {string};
+ */
 function getToken(){
     return localStorage.getItem('token');
 }
 
+/**
+ * This function sets token in local storage
+ */
 function 
 setToken(token){
     localStorage.setItem("token", token);
 }
 
+/**
+ * This function removes token from local storage
+ */
 function removeToken(){
     localStorage.removeItem("token");
 }
 
+/**
+ * This function returns role stored in local storage
+ * @returns {string};
+ */
 function getRole(){
     return localStorage.getItem("role");
 }
 
+/**
+ * This function sets token in local storage
+ */
 function setRole(role){
     localStorage.setItem("role", role);
 }
 
+/**
+ * This function removes role from local storage
+ */
 function removeRole(){
     localStorage.removeItem("role");
 }
 
-/*
-    *    Title: Bootstrap
-    *    Date: 11/6/2020
-    *    Availability: https://getbootstrap.com/docs/4.0/components/forms/
-    *
-*/
-
+/**
+ * Title: Bootstrap
+ * Date: 11/6/2020
+ * Availability: https://getbootstrap.com/docs/4.0/components/forms/
+ * This function is for displaying error when it occurs
+ * @param {string} errmsg 
+ * @param {string|null} redirectTo 
+ * @param {function|null} callback 
+ */
 async function handleError(errmsg, redirectTo=null, callback=null){
     const errModalContent = eval('`' + await template("/template/shared/Error.html") + '`');
 
@@ -64,6 +86,16 @@ async function handleError(errmsg, redirectTo=null, callback=null){
     });
 }
 
+/**
+ * Title: Bootstrap
+ * Date: 11/6/2020
+ * Availability: https://getbootstrap.com/docs/4.0/components/forms/
+ * This function is for displaying message
+ * @param {string} msg 
+ * @param {string|null} type 
+ * @param {string|null} redirectTo 
+ * @param {function|null} callback 
+ */
 async function displayMessage(msg, type="message", redirectTo=null, callback=null){
     
     var messageModalContent

@@ -1,5 +1,8 @@
 <?php
 
+    /**
+     * Controller class for logging in and registering
+     */
     class Auth extends Controller{
 
         public function __construct(){
@@ -7,6 +10,11 @@
             $this->user = $this->model("User");
         }
 
+        public function index(){}
+
+        /**
+         * Method for logging in
+         */
         public function login(){
 
             $body = json_decode(file_get_contents('php://input'), true);
@@ -22,13 +30,16 @@
                 $token  = createToken($loggedIn->user_id, $loggedIn->role);
     
                 // Send response to client with the token
-                handleResponse(200, ["token"=>$token, "role"=>$loggedIn->role]);
+                return handleResponse(200, ["token"=>$token, "role"=>$loggedIn->role]);
             }else{
-                handleResponse(404, "Incorrect user_id or password");
+                return handleResponse(404, "Incorrect user_id or password");
             }
 
         }
         
+        /**
+         * Method for registering new tester
+         */
         public function registerTester(){
 
             $body = json_decode(file_get_contents('php://input'), true);

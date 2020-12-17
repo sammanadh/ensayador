@@ -1,5 +1,8 @@
 <?php
 
+    /**
+     * Model for questions table
+     */
     class Question extends Model{
         
         public function __construct(){
@@ -9,6 +12,12 @@
             );
         }
 
+        /**
+         * Retrieves questions with options of a survey
+         * 
+         * @param string $survey_id ID of the survey
+         * @return object
+         */
         public function getQuestionsAndOptions($survey_id){
             //Fetch questions
             $questions = $this->db
@@ -27,6 +36,13 @@
             return $questions;
         }
 
+        /**
+         * Stores questions with options of a survey
+         * 
+         * @param string $survey_id ID of the survey
+         * @param array $qtnsWithOptns Questions with thier options
+         * @return object
+         */
         public function storeQuestionsWithOptions($surveyId, $qtnsWithOpts){
             try{
                 foreach($qtnsWithOpts as $qtnWithOpt){

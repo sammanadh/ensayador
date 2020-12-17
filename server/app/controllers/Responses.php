@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Contoller for reponses
+ */
 class Responses extends Controller{
 
     public function __construct(){
@@ -7,7 +10,11 @@ class Responses extends Controller{
         $this->response = $this->model("Response");
     }
 
-    //Save resoponses
+    public function index(){}
+
+    /**
+     * Saves resoponses
+     */
     public function store($survey_id){
         
         $user = protect();
@@ -31,7 +38,9 @@ class Responses extends Controller{
         }
     }
 
-    // Get survey responses by survey id
+    /**
+     * Sends survey responses by survey id
+     */
     public function bySurveyId($survey_id){
         if(protect(["admin"])){
             $responses = $this->response->getResponsesCount($survey_id);

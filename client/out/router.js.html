@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: router.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: router.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Login from "./components/login/Login.js";
+import Register from "./components/register/Register.js";
+import Surveys from "./components/surveys/Surveys.js";
+import Questionnaire from "./components/questionnaire/Questionnaire.js";
+import Navbar from "./components/navbar/Navbar.js";
+import TestersList from "./components/testers_list/TestersList.js";
+import NewSurveyForm from "./components/newSurveyForm/NewSurveyForm.js";
+import SurveyResponses from "./components/surveyResponses/SurveyResponses.js";
+
+// helpers
+import { getRole, getToken, handleError } from "./helpers.js";
+
+/**
+ * Generates regular expression for every route path so that current location can be compaired
+ * @param {string} path 
+ */
+const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
+
+/**
+ * Extracts parameter from a url route
+ * @param {string} route 
+ */
+const getParams = route => {
+    const values = route.result.slice(1);
+    const keys = route.path.match(/:(\w+)/g) || [];
+    return Object.fromEntries(keys.map((k,i) => {
+        return [k.split(":")[1], values[i]]
+    }))
+}
+
+/**
+ * Handles front end routing
+ * It will look into the url and load corresponding component
+ * It will also call onload method of the current componenet after it loads
+ */
+async function router(){
+
+    // set all the routes
+    const routes = [
+        {path: "/login", component: Login, result: null, allow: true},
+        {path: "/surveys", component: Surveys, result: null, allow: guardRoute()},
+        {path: "/surveys/:id", component: Questionnaire, result: null, allow: guardRoute(["tester"])},
+        {path: "/add_survey", component: NewSurveyForm, result:null, allow: guardRoute(["admin"])},
+        {path: "/register", component: Register, result: null, allow: true},
+        {path: "/testers", component: TestersList, result: null, allow: guardRoute(["admin"])},
+        {path: "/responses/:id", component: SurveyResponses, result: null, allow: guardRoute(["admin"])},
+    ]
+
+    /*
+        passing the reference of matching route to currentRoute and 
+        populating the result key with the match result so that later on prameters can be extracted
+    */
+    let currentRoute = routes.find(route=> {
+        route.result = window.location.pathname.match(pathToRegex(route.path))
+        return route.result != null;
+    });
+
+    if(currentRoute &amp;&amp; !currentRoute.allow){
+        return handleError("Sorry! You do not have access to this page.", "/");
+    }
+
+    if(!currentRoute &amp;&amp; getToken()){
+        return navigateTo("/surveys");
+    }else if(!currentRoute){
+        return navigateTo("/login");
+    }
+    
+    // If the current component is not Login
+    if(currentRoute.component!==Login){
+        // Display the navbar
+        const navbar = await new Navbar();
+        document.querySelector("#navbar").innerHTML =  await navbar.getHtml();   
+        
+        // Run additional setup for navbar
+        navbar.onload();
+    }else{
+        // This is neccessary because it will remove the navbar if a user logs out 
+        document.querySelector("#navbar").innerHTML =  null;
+    }
+    
+    const currentComp = new currentRoute.component(getParams(currentRoute));
+    
+    // Display current component
+    document.querySelector("#app").innerHTML = await currentComp.getHtml();
+    
+    // Run additional setup for current component
+    currentComp.onload();
+    
+}
+
+/**
+ * Guards route agains unauthenticated or unauthorized user
+ * It will only return true if token exists and role of the user is one of the roles that are allowed
+ * @param {Array&lt;string>} roles 
+ * @returns {boolean}
+ */
+function guardRoute(roles=null){
+    if(getToken() &amp;&amp; (!roles || roles.includes(getRole())) ){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+/**
+ * Allows routing from one componenet to another without reloading entire application
+ * It is what enables the single page behavour of this application
+ * @param {string} url 
+ */
+function navigateTo(url){
+    history.pushState(null, null, url);
+    router();
+}
+
+window.addEventListener("popstate", ()=>{
+    router();
+})
+
+export {router, navigateTo};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addNewOption">addNewOption</a></li><li><a href="global.html#addNewQuestion">addNewQuestion</a></li><li><a href="global.html#dispalyQuestionnaireForm">dispalyQuestionnaireForm</a></li><li><a href="global.html#displayMessage">displayMessage</a></li><li><a href="global.html#drawChart">drawChart</a></li><li><a href="global.html#getAllSurveys">getAllSurveys</a></li><li><a href="global.html#getHtml">getHtml</a></li><li><a href="global.html#getLiveSurveys">getLiveSurveys</a></li><li><a href="global.html#getParams">getParams</a></li><li><a href="global.html#getQuestionsWithOptions">getQuestionsWithOptions</a></li><li><a href="global.html#getRole">getRole</a></li><li><a href="global.html#getSurveyResponses">getSurveyResponses</a></li><li><a href="global.html#getTesters">getTesters</a></li><li><a href="global.html#getToken">getToken</a></li><li><a href="global.html#guardRoute">guardRoute</a></li><li><a href="global.html#handleError">handleError</a></li><li><a href="global.html#loadEventHandlers">loadEventHandlers</a></li><li><a href="global.html#loadEventListeners">loadEventListeners</a></li><li><a href="global.html#loadOptionEventHandlers">loadOptionEventHandlers</a></li><li><a href="global.html#loadOptions">loadOptions</a></li><li><a href="global.html#loadQuestionEventHandler">loadQuestionEventHandler</a></li><li><a href="global.html#loadQuestions">loadQuestions</a></li><li><a href="global.html#loadQuestionsFormEventHandlers">loadQuestionsFormEventHandlers</a></li><li><a href="global.html#loadSurveyFormEventHandlers">loadSurveyFormEventHandlers</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#navigateTo">navigateTo</a></li><li><a href="global.html#onload">onload</a></li><li><a href="global.html#participate">participate</a></li><li><a href="global.html#pathToRegex">pathToRegex</a></li><li><a href="global.html#postSurvey">postSurvey</a></li><li><a href="global.html#registerNewTester">registerNewTester</a></li><li><a href="global.html#removeQuestion">removeQuestion</a></li><li><a href="global.html#removeRole">removeRole</a></li><li><a href="global.html#removeTester">removeTester</a></li><li><a href="global.html#removeToken">removeToken</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#setQuestionsAndOptions">setQuestionsAndOptions</a></li><li><a href="global.html#setRole">setRole</a></li><li><a href="global.html#setSurveyDetails">setSurveyDetails</a></li><li><a href="global.html#setToken">setToken</a></li><li><a href="global.html#storeResponses">storeResponses</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Dec 16 2020 17:15:02 GMT+0545 (Nepal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

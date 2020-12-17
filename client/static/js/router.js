@@ -10,10 +10,16 @@ import SurveyResponses from "./components/surveyResponses/SurveyResponses.js";
 // helpers
 import { getRole, getToken, handleError } from "./helpers.js";
 
-// Generates regular expression for every route path to which the current location is to be compaired
+/**
+ * Generates regular expression for every route path so that current location can be compaired
+ * @param {string} path 
+ */
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
-// Extracts parameters and parameter keys from route and return an object by maping every parameter key to the value 
+/**
+ * Extracts parameter from a url route
+ * @param {string} route 
+ */
 const getParams = route => {
     const values = route.result.slice(1);
     const keys = route.path.match(/:(\w+)/g) || [];
@@ -22,6 +28,11 @@ const getParams = route => {
     }))
 }
 
+/**
+ * Handles front end routing
+ * It will look into the url and load corresponding component
+ * It will also call onload method of the current componenet after it loads
+ */
 async function router(){
 
     // set all the routes
@@ -77,6 +88,12 @@ async function router(){
     
 }
 
+/**
+ * Guards route agains unauthenticated or unauthorized user
+ * It will only return true if token exists and role of the user is one of the roles that are allowed
+ * @param {Array<string>} roles 
+ * @returns {boolean}
+ */
 function guardRoute(roles=null){
     if(getToken() && (!roles || roles.includes(getRole())) ){
         return true;
@@ -85,7 +102,11 @@ function guardRoute(roles=null){
     }
 }
 
-
+/**
+ * Allows routing from one componenet to another without reloading entire application
+ * It is what enables the single page behavour of this application
+ * @param {string} url 
+ */
 function navigateTo(url){
     history.pushState(null, null, url);
     router();
