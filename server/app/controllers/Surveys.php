@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Controller for Surveys
+ */
 class Surveys extends Controller{
 
     public function __construct(){
@@ -7,7 +10,9 @@ class Surveys extends Controller{
         $this->question = $this->model("Question");
     }
     
-    // Returns all the surveys
+    /**
+     * Sends all the surveys
+     */
     public function index(){
         if(protect(["admin"])){
             $surveys = $this->survey->getAllSurveys();
@@ -15,7 +20,9 @@ class Surveys extends Controller{
         }
     }
 
-    // Returns only those surveys which are live and haven't been filled    
+    /**
+     * Sends only those surveys which are live and haven't been filled    
+     */
     public function liveSurveysToBeFilled(){
         $user = protect();
         if(restrictTo($user->role, ["tester"])){
@@ -24,7 +31,9 @@ class Surveys extends Controller{
         }
     }   
 
-    // Create new survey
+    /**
+     *  Create new survey
+     */
     public function store(){
 
         $body = json_decode(file_get_contents('php://input'), true);

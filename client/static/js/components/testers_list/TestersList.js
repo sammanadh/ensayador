@@ -5,17 +5,30 @@ import { getTesters } from "../../api/users.js";
 import { handleError, getToken, displayMessage } from "../../helpers.js";
 import { navigateTo } from "../../router.js";
 
+/**
+ * Class for TestersList component
+ */
 export default class TestersList extends Page{
 
+    /**
+     * Does all initial setups like setting the page title and initializing property
+     */
     constructor(){
         super();
         this.setTitle("Testers List");
     }
 
+    /**
+     * Returns the html template for TestersList component
+     * @returns {string}
+     */
     async getHtml(){
         return eval('`'+await template("/template/testers_list/TestersList.html")+'`');
     }
 
+    /**
+     * Does what needs to be done after a TestersList componenet renders
+     */
     async onload(){
         
         try{
@@ -54,6 +67,9 @@ export default class TestersList extends Page{
 
     }
 
+    /**
+     * Loads all event handlers for TestersList compoenent
+     */
     loadEventHandlers(){
 
         const removeBtns = document.getElementsByClassName("remove-user");

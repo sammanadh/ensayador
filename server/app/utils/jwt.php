@@ -10,7 +10,12 @@
     use Firebase\JWT\SignatureInvalidException;
     use \Carbon\Carbon;
 
-    // Function authentication and authorization
+    /**
+     * Implements authentication and authorization
+     * 
+     * @param array|null  $roles User roles that are authorized
+     * @return boolean
+     */
     function protect($roles = null){
 
         // Get the request headers
@@ -72,7 +77,13 @@
         }
     }
 
-    // For authorization
+    /**
+     * Restricts user if not authorization
+     * 
+     * @param string $userRole Role of the user
+     * @param string[] $allowedRoles Roles that are allowed
+     * @return boolean
+     */
     function restrictTo($userRole, $allowedRoles = null){
         if($allowedRoles){
             if(!in_array($userRole, $allowedRoles)){
@@ -83,6 +94,13 @@
         return true;
     }
 
+    /**
+     * Creates JWT toekn
+     * 
+     * @param string $user_id Id of the user
+     * @param string $role Role of the user
+     * @return string
+     */
     function createToken($user_id, $role){ 
         $secret = $_ENV['JWT_SECRET'];
         $iat = time();

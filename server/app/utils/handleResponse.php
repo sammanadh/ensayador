@@ -1,5 +1,11 @@
 <?php
 
+    /**
+     * Sends response to the client
+     * 
+     * @param int $statusCode Status code of the reponse
+     * @param mixed $payload Data or message to send with the reponse
+     */
     function handleResponse($statusCode, $payload=null){
 
         
@@ -10,7 +16,7 @@
             $data = [
                 "status_code"=>$statusCode,
                 "status" => "error",
-                "message" => $payload
+                "message" => str_replace("_", " ", $payload)
             ];
         }else{
             if(isset($payload)){

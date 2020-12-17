@@ -1,5 +1,8 @@
 <?php
 
+    /**
+     * Model for users table
+     */
     class User extends Model{
         
         public function __construct(){
@@ -11,8 +14,12 @@
             );
         }
 
-        // Check if a user with a particular email exists or 
-        // Return the user if exists
+        /**
+         * Retrives a user by ID
+         * 
+         * @param string $user_id ID of the user
+         * @return object
+         */
         private function findByUserId($user_id){
             $user = $this->db->query("SELECT * FROM $this->table WHERE user_id=:user_id")->bind("user_id", $user_id);
             $user = $user->single();
@@ -53,7 +60,13 @@
             return $this->db->execute();
         }
 
-        // Login a user
+        /**
+         * Logs in a user
+         * 
+         * @param string $user_id ID of the user
+         * @param string $password Password of the user
+         * @return object
+         */
         public function login($user_id, $password){
             $row = $this->findByUserId($user_id);
             if(!$row){
@@ -68,6 +81,12 @@
             }
         }
 
+        /**
+         * Retrieves users by role
+         * 
+         * @param string $role Role to use for retrieving users
+         * @return object
+         */
         public function findByRole($role){
             $users = $this->db->query("SELECT user_id, first_name, last_name, email, contact_no, `address` FROM $this->table WHERE role=:role")
                 ->bind("role", $role)

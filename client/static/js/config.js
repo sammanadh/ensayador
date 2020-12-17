@@ -1,3 +1,6 @@
+/**
+ * Basic configuration for this project
+ */
 export default {
 
     APPNAME: "ENSAYADOR",

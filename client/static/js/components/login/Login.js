@@ -6,8 +6,14 @@ import { login } from "../../api/auth.js";
 import { navigateTo } from "../../router.js";
 import { setRole, setToken } from "../../helpers.js";
 
+/**
+ * Class for login component
+ */
 export default class Login extends Page{
 
+    /**
+     * Does all initial setups like setting the page title and initializing property
+     */
     constructor(){
         super();
         this.setTitle("Login");
@@ -20,15 +26,25 @@ export default class Login extends Page{
 
     }
 
+    /**
+     * Returns the html template for Login component
+     * @returns {string}
+     */
     async getHtml(){
         // eval converts the string into template String so that string interpolation can be used
         return eval('`'+await template("/template/login/Login.html")+'`');
     }
 
+    /**
+     * Does what needs to be done after a Login componenet renders
+     */
     onload(){
         this.loadEventListeners();
     }
     
+    /**
+     * Loads all necessary event handlers for Login compoenent
+     */
     async loadEventListeners(){
         document.querySelector("form").addEventListener("submit", async(evt)=>{
             evt.preventDefault();

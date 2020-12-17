@@ -4,8 +4,14 @@ import { registerNewTester } from "../../api/auth.js";
 import { navigateTo } from "../../router.js";
 import { displayMessage } from "../../helpers.js";
 
+/**
+ * Class for Register component
+ */
 export default class Register extends Page{
 
+    /**
+     * Does all initial setups like setting the page title and initializing property
+     */
     constructor(){
         super();
 
@@ -27,15 +33,24 @@ export default class Register extends Page{
         this.setTitle(this.title);
     }
 
+    /**
+     * Returns the html template for Register component
+     * @returns {string}
+     */  
     async getHtml(){
         // eval converts the string into template String so that string interpolation can be used
         return eval('`'+await template("/template/register/Register.html")+'`');
     }
 
+    /**
+     * Does what needs to be done after a Register componenet renders
+     */
     onload(){
         this.loadEventListeners();
     }
-
+    /**
+     * Loads all event handlers for Register compoenent
+     */
     loadEventListeners(){
 
         const form = document.getElementById("registration-form");
@@ -49,12 +64,13 @@ export default class Register extends Page{
             
             try{
                 delete this.data.confirm_password;
-                const res = await registerNewTester(this.data);
+                let res = await registerNewTester(this.data);
+                res = await res.json();
 
                  // Proper error handeling
-                if( Math.floor(res.status/100) === 4 ){
+                if( Math.floor(res.status_code/100) === 4 ){
                     throw new Error(res.message)
-                }else if( Math.floor(res.status/100) === 5 ){
+                }else if( Math.floor(res.status_code/100) === 5 ){
                     throw new Error("Internal server error. Server failed to respond")
                 }
      

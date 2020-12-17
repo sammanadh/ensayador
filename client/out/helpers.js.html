@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: helpers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: helpers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { navigateTo } from "./router.js";
+import template from "./api/template.js";
+
+/**
+ * This function returns token stored in local storage
+ * @returns {string};
+ */
+function getToken(){
+    return localStorage.getItem('token');
+}
+
+/**
+ * This function sets token in local storage
+ */
+function 
+setToken(token){
+    localStorage.setItem("token", token);
+}
+
+/**
+ * This function removes token from local storage
+ */
+function removeToken(){
+    localStorage.removeItem("token");
+}
+
+/**
+ * This function returns role stored in local storage
+ * @returns {string};
+ */
+function getRole(){
+    return localStorage.getItem("role");
+}
+
+/**
+ * This function sets token in local storage
+ */
+function setRole(role){
+    localStorage.setItem("role", role);
+}
+
+/**
+ * This function removes role from local storage
+ */
+function removeRole(){
+    localStorage.removeItem("role");
+}
+
+/**
+ * Title: Bootstrap
+ * Date: 11/6/2020
+ * Availability: https://getbootstrap.com/docs/4.0/components/forms/
+ * This function is for displaying error when it occurs
+ * @param {string} errmsg 
+ * @param {string|null} redirectTo 
+ * @param {function|null} callback 
+ */
+async function handleError(errmsg, redirectTo=null, callback=null){
+    const errModalContent = eval('`' + await template("/template/shared/Error.html") + '`');
+
+    // Creating a new model to show error
+    const errModal = document.createElement("div");
+    errModal.className = "modal";
+    errModal.role = "dialog";
+    errModal.tabIndex = "-1";
+    errModal.id = "errModal";
+    errModal.innerHTML = errModalContent;
+
+    // Adding modal to the app container
+    document.getElementById("app").append(errModal);
+    
+    // Display the modal
+    $('#errModal').modal('show');
+
+    // Event listener for when the error modal is closed
+    $("#errModal").on("hidden.bs.modal", function () {
+        // Run a callback if it is passed
+        if(callback){
+            callback();
+        }
+
+        // Redirect to another page if passed
+        if(redirectTo){
+            navigateTo(redirectTo);
+        }
+    });
+}
+
+/**
+ * Title: Bootstrap
+ * Date: 11/6/2020
+ * Availability: https://getbootstrap.com/docs/4.0/components/forms/
+ * This function is for displaying message
+ * @param {string} msg 
+ * @param {string|null} type 
+ * @param {string|null} redirectTo 
+ * @param {function|null} callback 
+ */
+async function displayMessage(msg, type="message", redirectTo=null, callback=null){
+    
+    var messageModalContent
+    if(type==="confirmation"){
+        messageModalContent = eval('`' + await template("/template/shared/Confirmation.html") + '`');
+    }else{
+        messageModalContent = eval('`' + await template("/template/shared/Message.html") + '`');
+    }
+
+    // Creating a new model to show error
+    const msgModal = document.createElement("div");
+    msgModal.className = "modal";
+    msgModal.role = "dialog";
+    msgModal.tabIndex = "-1";
+    msgModal.id = "messageModal";
+    msgModal.innerHTML = messageModalContent;
+
+    // Adding modal to the app container
+    document.getElementById("app").append(msgModal);
+    
+    // Display the modal
+    $('#messageModal').modal('show');
+
+    const actions = async ()=>{
+        if(redirectTo){
+            navigateTo(redirectTo);
+        }
+        if(callback){
+            await callback();
+        }
+    }
+
+    if(type==="confirmation"){       
+         // Event listener for confirmation
+        document.querySelector(".confirm-button").addEventListener("click", async ()=>{
+            await actions();
+            $('#messageModal').modal("hide");
+        })
+    }else{
+        // Event listener for when the modal is closed
+        $("#messageModal").on("hidden.bs.modal", actions);
+    }
+}
+
+export { 
+    getToken, 
+    setToken, 
+    removeToken,
+    setRole, 
+    getRole, 
+    removeRole, 
+    handleError, 
+    displayMessage
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addNewOption">addNewOption</a></li><li><a href="global.html#addNewQuestion">addNewQuestion</a></li><li><a href="global.html#dispalyQuestionnaireForm">dispalyQuestionnaireForm</a></li><li><a href="global.html#displayMessage">displayMessage</a></li><li><a href="global.html#drawChart">drawChart</a></li><li><a href="global.html#getAllSurveys">getAllSurveys</a></li><li><a href="global.html#getHtml">getHtml</a></li><li><a href="global.html#getLiveSurveys">getLiveSurveys</a></li><li><a href="global.html#getParams">getParams</a></li><li><a href="global.html#getQuestionsWithOptions">getQuestionsWithOptions</a></li><li><a href="global.html#getRole">getRole</a></li><li><a href="global.html#getSurveyResponses">getSurveyResponses</a></li><li><a href="global.html#getTesters">getTesters</a></li><li><a href="global.html#getToken">getToken</a></li><li><a href="global.html#guardRoute">guardRoute</a></li><li><a href="global.html#handleError">handleError</a></li><li><a href="global.html#loadEventHandlers">loadEventHandlers</a></li><li><a href="global.html#loadEventListeners">loadEventListeners</a></li><li><a href="global.html#loadOptionEventHandlers">loadOptionEventHandlers</a></li><li><a href="global.html#loadOptions">loadOptions</a></li><li><a href="global.html#loadQuestionEventHandler">loadQuestionEventHandler</a></li><li><a href="global.html#loadQuestions">loadQuestions</a></li><li><a href="global.html#loadQuestionsFormEventHandlers">loadQuestionsFormEventHandlers</a></li><li><a href="global.html#loadSurveyFormEventHandlers">loadSurveyFormEventHandlers</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#navigateTo">navigateTo</a></li><li><a href="global.html#onload">onload</a></li><li><a href="global.html#participate">participate</a></li><li><a href="global.html#pathToRegex">pathToRegex</a></li><li><a href="global.html#postSurvey">postSurvey</a></li><li><a href="global.html#registerNewTester">registerNewTester</a></li><li><a href="global.html#removeQuestion">removeQuestion</a></li><li><a href="global.html#removeRole">removeRole</a></li><li><a href="global.html#removeTester">removeTester</a></li><li><a href="global.html#removeToken">removeToken</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#setQuestionsAndOptions">setQuestionsAndOptions</a></li><li><a href="global.html#setRole">setRole</a></li><li><a href="global.html#setSurveyDetails">setSurveyDetails</a></li><li><a href="global.html#setToken">setToken</a></li><li><a href="global.html#storeResponses">storeResponses</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Dec 16 2020 17:15:02 GMT+0545 (Nepal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

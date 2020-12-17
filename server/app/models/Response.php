@@ -1,5 +1,8 @@
 <?php
 
+    /**
+     * Model for responses table
+     */
     class Response extends Model{
         
         public function __construct(){
@@ -9,6 +12,13 @@
             );
         }
 
+        /**
+         * Stores survey reponses
+         * 
+         * @param string $participant ID of the survey participant
+         * @param string[] $response Resonses from the participant
+         * @return object
+         */
         public function storeResponses($participant, $responses){
             try{
                 foreach($responses as $response){
@@ -25,6 +35,12 @@
             }
         }
 
+        /**
+         * Retrieves survey responses with its occurance count
+         * 
+         * @param string $survey ID of the survey
+         * @return object
+         */
         public function getResponsesCount($survey_id){
             // Fetch all questions
             $questions = $this->db->query("SELECT * FROM questions WHERE survey_id=:survey_id")

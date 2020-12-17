@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: api/surveys.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,90 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: api/surveys.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import config from "../config.js";
 
+/**
+ * Makes api request to retreive all the live surveys
+ * 
+ * @param {string} token 
+ * @returns {Promise}
+ */
+function getLiveSurveys(token){
 
-    <h3> </h3>
+    return fetch(`${config.BASEURL}/surveys/liveSurveysToBeFilled`, {
+        method: "GET",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
 
+/**
+ * Makes api request to retreive all surveys
+ * 
+ * @param {string} token 
+ * @returns {Promise}
+ */
+function getAllSurveys(token){
 
+    return fetch(`${config.BASEURL}/surveys`, {
+        method: "GET",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
 
+}
 
+/**
+ * Makes api request for a user to participate in a survey
+ * 
+ * @param {string} token 
+ * @param {string} survey_id 
+ */
+function participate(token, survey_id){
 
+    return fetch(`${config.BASEURL}/surveys/participate/${survey_id}`, {
+        method: "POST",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
 
+}
 
+/**
+ * Makes api request to post new survey
+ * 
+ * @param {string} token 
+ * @param {object} data 
+ */
+function postSurvey(token, data){
+    return fetch(`${config.BASEURL}/surveys/store`, {
+        method: "POST",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+    })
+}
 
-
-
-    
-
-
-
-
-
+export { getLiveSurveys, getAllSurveys, participate, postSurvey }</code></pre>
+        </article>
+    </section>
 
 
 

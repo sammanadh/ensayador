@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: api/users.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,53 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: api/users.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import config from "../config.js";
 
+/**
+ * Makes api request to get all testers
+ * 
+ * @param {string} token 
+ * @returns {Promise}
+ */
+function getTesters(token){
+    return fetch(`${config.BASEURL}/users/byRole/tester`, {
+        method: "GET",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
 
-    <h3> </h3>
+/**
+ * Makes api request to remove a tester
+ * 
+ * @param {string} tester_id
+ * @param {string} token 
+ * @returns {Promise}
+ */
+function removeTester(tester_id, token){
+    return fetch(`${config.BASEURL}/users/delete/${tester_id}`, {
+        method: "DELETE",
+        headers: {
+            'Content_Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+export { getTesters, removeTester }</code></pre>
+        </article>
+    </section>
 
 
 

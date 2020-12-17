@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/testers_list/TestersList.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/testers_list/TestersList.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Page from "../Page.js";
+import template from "../../api/template.js";
+import { removeTester } from "../../api/users.js";
+import { getTesters } from "../../api/users.js";
+import { handleError, getToken, displayMessage } from "../../helpers.js";
+import { navigateTo } from "../../router.js";
+
+/**
+ * Class for TestersList component
+ */
+export default class TestersList extends Page{
+
+    /**
+     * Does all initial setups like setting the page title and initializing property
+     */
+    constructor(){
+        super();
+        this.setTitle("Testers List");
+    }
+
+    /**
+     * Returns the html template for TestersList component
+     * @returns {string}
+     */
+    async getHtml(){
+        return eval('`'+await template("/template/testers_list/TestersList.html")+'`');
+    }
+
+    /**
+     * Does what needs to be done after a TestersList componenet renders
+     */
+    async onload(){
+        
+        try{
+            var res = await getTesters(getToken());
+            res = await res.json();
+
+            if( Math.floor(res.status_code/100) === 4 ){
+                throw new Error(res.message);
+            }else if(Math.floor(res.status_code/100) === 5){
+                throw new Error("Internal server error. Server failed to respond")   
+            }
+
+            if(!res.data.length){
+                const message = "No Testers";
+                const emptyTemplate = eval('`'+await template("/template/shared/NothingHere.html")+'`');
+                document.getElementById("testers-table").innerHTML = emptyTemplate;
+            }
+
+            await this.loadListItems(res.data);
+        }catch(err){
+            handleError(err.message);
+        }
+
+        this.loadEventHandlers();
+    }
+
+    async loadListItems(listItems){
+
+        const itemTemplate = await template("/template/testers_list/TestersListItem.html");
+
+        for(let item of listItems){
+            const tr = document.createElement("tr");
+            tr.innerHTML = eval('`' + itemTemplate +'`');
+            document.getElementById('testers-list-body').append(tr);
+        }
+
+    }
+
+    /**
+     * Loads all event handlers for TestersList compoenent
+     */
+    loadEventHandlers(){
+
+        const removeBtns = document.getElementsByClassName("remove-user");
+
+        for(let removeBtn of removeBtns){
+            removeBtn.addEventListener("click", (evt)=>{
+                displayMessage("Are you sure you want to remove this user?", "confirmation", null, async () => {
+                    const res = await removeTester(evt.target.getAttribute("for"), getToken());
+
+                     // Proper error handeling
+                    if( Math.floor(res.status/100) === 4 ){
+                        throw new Error(res.message)
+                    }else if( Math.floor(res.status/100) === 5 ){
+                        throw new Error("Internal server error. Server failed to respond")
+                    }
+        
+                    // Display success message
+                    return displayMessage("Tester removed successfully.", "message", "/testers");
+                });
+            })
+        }
+
+        document.getElementById("add-tester-button").addEventListener("click", ()=>{
+            navigateTo("/register");
+        })
+
+    }
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addNewOption">addNewOption</a></li><li><a href="global.html#addNewQuestion">addNewQuestion</a></li><li><a href="global.html#dispalyQuestionnaireForm">dispalyQuestionnaireForm</a></li><li><a href="global.html#displayMessage">displayMessage</a></li><li><a href="global.html#drawChart">drawChart</a></li><li><a href="global.html#getAllSurveys">getAllSurveys</a></li><li><a href="global.html#getHtml">getHtml</a></li><li><a href="global.html#getLiveSurveys">getLiveSurveys</a></li><li><a href="global.html#getParams">getParams</a></li><li><a href="global.html#getQuestionsWithOptions">getQuestionsWithOptions</a></li><li><a href="global.html#getRole">getRole</a></li><li><a href="global.html#getSurveyResponses">getSurveyResponses</a></li><li><a href="global.html#getTesters">getTesters</a></li><li><a href="global.html#getToken">getToken</a></li><li><a href="global.html#guardRoute">guardRoute</a></li><li><a href="global.html#handleError">handleError</a></li><li><a href="global.html#loadEventHandlers">loadEventHandlers</a></li><li><a href="global.html#loadEventListeners">loadEventListeners</a></li><li><a href="global.html#loadOptionEventHandlers">loadOptionEventHandlers</a></li><li><a href="global.html#loadOptions">loadOptions</a></li><li><a href="global.html#loadQuestionEventHandler">loadQuestionEventHandler</a></li><li><a href="global.html#loadQuestions">loadQuestions</a></li><li><a href="global.html#loadQuestionsFormEventHandlers">loadQuestionsFormEventHandlers</a></li><li><a href="global.html#loadSurveyFormEventHandlers">loadSurveyFormEventHandlers</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#navigateTo">navigateTo</a></li><li><a href="global.html#onload">onload</a></li><li><a href="global.html#participate">participate</a></li><li><a href="global.html#pathToRegex">pathToRegex</a></li><li><a href="global.html#postSurvey">postSurvey</a></li><li><a href="global.html#registerNewTester">registerNewTester</a></li><li><a href="global.html#removeQuestion">removeQuestion</a></li><li><a href="global.html#removeRole">removeRole</a></li><li><a href="global.html#removeTester">removeTester</a></li><li><a href="global.html#removeToken">removeToken</a></li><li><a href="global.html#router">router</a></li><li><a href="global.html#setQuestionsAndOptions">setQuestionsAndOptions</a></li><li><a href="global.html#setRole">setRole</a></li><li><a href="global.html#setSurveyDetails">setSurveyDetails</a></li><li><a href="global.html#setToken">setToken</a></li><li><a href="global.html#storeResponses">storeResponses</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Wed Dec 16 2020 17:15:02 GMT+0545 (Nepal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

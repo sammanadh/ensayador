@@ -1,7 +1,9 @@
 <?php
-// PDO database class to be used by models to interact with database
-// Implemented using Singleton pattern
 
+/**
+ * PDO database class to be used by models to interact with database
+ * Implemented using Singleton pattern
+ */
  class Database{
 
     private static $dbObj;

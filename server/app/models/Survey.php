@@ -1,5 +1,8 @@
 <?php
 
+    /**
+     * Model for surveys table
+     */
     class Survey extends Model{
         
         public function __construct(){
@@ -11,6 +14,12 @@
             );
         }
 
+        /**
+         * Retrieves all remaning live surveys
+         * 
+         * @param string $user_id ID of the user used to retrieve only those survey in which he/she hasn't already participated
+         * @return object
+         */
         public function getRemaningLiveSurveys($user_id){
             // Only select unexpired survey in which the user has not already participated 
             $this->db->query("
@@ -21,6 +30,11 @@
             return $rows;
         }
 
+        /**
+         * Retrieves all surveys
+         * 
+         * @return object
+         */
         public function getAllSurveys(){
             // Order by condition will order all live surveys first and then the once that have ended
             $this->db->query("SELECT * FROM $this->table ORDER BY (NOW() > ends_at)");
@@ -28,6 +42,12 @@
             return $rows;
         }
 
+        /**
+         * Stores new survey
+         * 
+         * @param string[] $data Data about the new survey
+         * @return object
+         */
         public function storeSurvey($data){
             $id = generateUUID();
             $this->db->query("INSERT INTO $this->table(survey_id, survey_for, starts_at, ends_at, survey_title) 
